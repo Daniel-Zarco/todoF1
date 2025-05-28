@@ -70,7 +70,8 @@
 <div class="container" id="circuitos-container"></div>
 
 <script>
-  const year = 2023;
+  const params = new URLSearchParams(window.location.search);
+  const year = params.get("year")
 
   fetch(`https://ergast.com/api/f1/${year}.json`)
     .then(response => response.json())

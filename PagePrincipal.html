@@ -152,6 +152,55 @@
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
         }
 
+        /*PARA EL INPUT DE AÑOS*/
+
+        #anioInput {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.year-selector {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    transition: transform 0.3s ease;
+}
+
+.year-selector:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+}
+
+.year-selector label {
+    font-size: 1.3em;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+}
+
+.year-selector select {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #e10600;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 1em;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.year-selector select:hover,
+.year-selector select:focus {
+    border-color: #ff1a1a;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
     </style>
 </head>
 <body>
@@ -166,9 +215,18 @@
     <header>
         <span id="title">Todo F1</span>
         <p>Gestiona tu mundo de Fórmula 1</p>
+        <div id="anioInput">
+                <section class="year-selector" style="text-align: center; margin-top: 20px;">
+                    <label for="anio" style="font-size: 1.1em; margin-right: 10px;">Selecciona un año:</label>
+                    <select id="anio" name="anio" style="padding: 8px 12px; border-radius: 8px; font-size: 1em;">
+                        <option value="" disabled selected>Elige un año</option>
+                    </select>
+            </section>
+        </div>
     </header>
 
     <main class="container">
+         
         <div class="card">
             <h2>Pilotos</h2>
             <p>Consulta y gestiona información de todos los pilotos de F1.</p>
@@ -177,7 +235,7 @@
         <div class="card">
             <h2>Escuderías</h2>
             <p>Conoce las escuderías históricas y actuales.</p>
-            <a href="/TodoF1/todoF1/PageEscuderias.html">Ver Escuderías</a>
+            <a href="#" onclick="redirigirConAño()">Ver Escuderías</a>
         </div>
         <div class="card">
             <h2>Circuitos</h2>
@@ -191,6 +249,34 @@
         </div>
     </main>
 </body>
+
+<script>
+    // Rellenar dinámicamente los años del 1999 al 2025
+    const select = document.getElementById("anio");
+    for (let y = 1950; y <= 2025; y++) {
+        const opt = document.createElement("option");
+        opt.value = y;
+        opt.textContent = y;
+        select.appendChild(opt);
+    }
+
+    // Capturar cambio de selección
+    select.addEventListener('change', function () {
+        console.log("Año seleccionado:", this.value);
+        // Aquí podrías hacer algo como redirigir o filtrar
+        // window.location.href = `/carreras?year=${this.value}`;
+    });
+
+    function redirigirConAño() {
+        const año = document.getElementById("anio").value;
+        if (!año) {
+        alert("Por favor selecciona un año.");
+        return;
+        }
+        window.location.href = `/TodoF1/todoF1/PageEscuderias.html?year=${año}`;
+    }
+</script>
+
 </html>
 
 

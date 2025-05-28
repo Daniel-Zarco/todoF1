@@ -70,7 +70,9 @@
 <div class="container" id="escuderias-container"></div>
 
 <script>
-  const year = 2023;
+  const params = new URLSearchParams(window.location.search);
+  const year = params.get("year")
+
 
   fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
     .then(response => response.json())

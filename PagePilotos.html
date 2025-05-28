@@ -70,7 +70,8 @@
 <div class="container" id="pilotos-container"></div>
 
 <script>
-  const year = 2024;
+  const params = new URLSearchParams(window.location.search);
+  const year = params.get("year")
 
   fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
     .then(response => response.json())
