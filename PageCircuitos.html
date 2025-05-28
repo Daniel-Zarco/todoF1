@@ -71,7 +71,7 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const year = params.get("year")
+  const year = params.get("year");
 
   fetch(`https://ergast.com/api/f1/${year}.json`)
     .then(response => response.json())

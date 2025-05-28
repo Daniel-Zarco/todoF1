@@ -230,22 +230,22 @@
         <div class="card">
             <h2>Pilotos</h2>
             <p>Consulta y gestiona información de todos los pilotos de F1.</p>
-            <a href="/TodoF1/todoF1/PagePilotos.html">Ver Pilotos</a>
+            <a href="#" onclick="redirigirConAño('Pilotos')">Ver Pilotos</a>
         </div>
         <div class="card">
             <h2>Escuderías</h2>
             <p>Conoce las escuderías históricas y actuales.</p>
-            <a href="#" onclick="redirigirConAño()">Ver Escuderías</a>
+            <a href="#" onclick="redirigirConAño('Escuderia')">Ver Escuderías</a>
         </div>
         <div class="card">
             <h2>Circuitos</h2>
             <p>Explora los circuitos más emblemáticos del campeonato.</p>
-            <a href="/TodoF1/todoF1/PageCircuitos.html">Ver Circuitos</a>
+            <a href="#" onclick="redirigirConAño('Circuitos')">Ver Circuitos</a>
         </div>
         <div class="card">
             <h2>Carreras</h2>
             <p>Revisa el calendario de carreras y sus resultados.</p>
-            <a href="/TodoF1/todoF1/PageCarreras.html">Ver Carreras</a>
+            <a href="#" onclick="redirigirConAño('Carreras')">Ver Carreras</a>
         </div>
     </main>
 </body>
@@ -253,7 +253,7 @@
 <script>
     // Rellenar dinámicamente los años del 1999 al 2025
     const select = document.getElementById("anio");
-    for (let y = 1950; y <= 2025; y++) {
+    for (let y = 1950; y <= 2024; y++) {
         const opt = document.createElement("option");
         opt.value = y;
         opt.textContent = y;
@@ -267,13 +267,16 @@
         // window.location.href = `/carreras?year=${this.value}`;
     });
 
-    function redirigirConAño() {
+    function redirigirConAño(tipo) {
         const año = document.getElementById("anio").value;
         if (!año) {
         alert("Por favor selecciona un año.");
         return;
         }
-        window.location.href = `/TodoF1/todoF1/PageEscuderias.html?year=${año}`;
+        if(tipo=="Pilotos"){window.location.href = `/TodoF1/todoF1/PagePilotos.html?year=${año}`;}
+        else if(tipo=="Escuderia"){window.location.href = `/TodoF1/todoF1/PageEscuderias.html?year=${año}`;}
+        else if(tipo=="Circuitos"){window.location.href = `/TodoF1/todoF1/PageCircuitos.html?year=${año}`;}
+        else if(tipo=="Carreras"){window.location.href = `/TodoF1/todoF1/PageCarreras.html?year=${año}`;}
     }
 </script>
 
