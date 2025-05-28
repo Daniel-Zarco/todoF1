@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de Usuario</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .register-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+      width: 320px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #e10600;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #b00000;
+    }
+
+    #error, #success {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    #success {
+      color: lightgreen;
+    }
+
+    #error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-box">
+  <h2>Crear Cuenta</h2>
+  <form id="registroForm">
+    <input type="text" id="usuario" placeholder="Nombre de usuario" required />
+    <input type="email" id="gmail" placeholder="Correo electrónico" required />
+    <input type="password" id="password" placeholder="Contraseña" required />
+    <input type="password" id="confirm" placeholder="Confirmar contraseña" required />
+    <button type="submit" class="btn">Registrarse</button>
+  </form>
+  <p id="error"></p>
+  <p id="success"></p>
+</div>
+
+<script>
+  document.getElementById('registroForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const nombre_usuario = document.getElementById('usuario').value;
+    const gmail = document.getElementById('gmail').value;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+
+    const error = document.getElementById('error');
+    const success = document.getElementById('success');
+    error.textContent = '';
+    success.textContent = '';
+
+    if (password !== confirm) {
+      error.textContent = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    const csrf = document.cookie.split('; ')
+        .find(row => row.startsWith('XSRF-TOKEN'))
+        ?.split('=')[1];
+
+        fetch('/registro', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-XSRF-TOKEN': decodeURIComponent(csrf)
+        },
+        body: JSON.stringify({ ... })
+    });
+
+
+    if (response.ok) {
+      success.textContent = '¡Usuario registrado con éxito!';
+      document.getElementById('registroForm').reset();
+    } else {
+      const data = await response.json();
+      error.textContent = data.message || 'Error al registrar usuario.';
+    }
+  });
+</script>
+
+</body>
+</html>

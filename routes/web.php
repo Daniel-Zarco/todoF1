@@ -5,12 +5,43 @@
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PilotoController;
-
-/*27/05/25 */
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
+
+/*28/05/25*/
+
+Route::post('/registro', function (Request $request) {
+    $data = $request->json()->all();
+
+    // Validar campos mínimos
+    if (!$data['nombre_usuario'] || !$data['gmail'] || !$data['password']) {
+        return response()->json(['message' => 'Datos incompletos.'], 422);
+    }
+
+    // Comprobar si ya existe ese usuario o correo
+    if (Usuario::where('nombre_usuario', $data['nombre_usuario'])->exists()) {
+        return response()->json(['message' => 'Nombre de usuario ya registrado.'], 409);
+    }
+
+    if (Usuario::where('gmail', $data['gmail'])->exists()) {
+        return response()->json(['message' => 'Correo ya registrado.'], 409);
+    }
+
+    // Crear usuario
+    Usuario::create([
+        'nombre_usuario' => $data['nombre_usuario'],
+        'gmail' => $data['gmail'],
+        'contraseña' => Hash::make($data['password']),
+    ]);
+
+    return response()->json(['success' => true], 201);
+});
+
+
+
+/*27/05/25 */
 
 Route::post('/login', function (Request $request) {
     $data = $request->json()->all();
