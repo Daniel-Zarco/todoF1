@@ -1,0 +1,126 @@
+<!--06/05/2025-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo F1 - Inicio</title>
+    <style>
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                            url('Images/LogoPrincipal.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(236, 100, 100, 0.884), 0 0 15px rgb(193, 107, 243);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 99%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        p{
+            font-size: 20px;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+
+        #InitSes{
+            margin-top: 10px;
+        }
+
+        #title {
+            font-size: 60px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 15px #e10600;
+            transition: all 0.3s ease-in-out;
+            letter-spacing: 2px;
+            margin-bottom: 0.5em;
+            display: inline-block;
+        }
+
+        #title:hover {
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9),
+                        0 0 25px #ff1e1e;
+            transform: scale(1.05);
+            color: #ffecec;
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #640C00;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(39, 39, 39, 0.2), rgba(248, 248, 248, 0.8), rgba(39, 39, 39, 0.2));
+            animation: shine 3s infinite;
+        }
+
+        .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px #f0eeee;
+        }
+
+        .btn:hover::before {
+        animation: shine 1s forwards;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+            }
+
+            @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenido a:<span id="title">&nbsp TodoF1</span></h1>
+        <p>La aplicación donde podrás consultar todos los<br> datos de la F1  en los últimos 10 años.</p>
+        <div id="InitSes"><a href="/TodoF1/todoF1/InitSes.html" class="btn">Iniciar Sesión</a></div>
+    </div>
+</body>
+</html>

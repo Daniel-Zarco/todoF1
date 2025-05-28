@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas de Carrera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+            font-family: 'Urbanist', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            background-color: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px red;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid red;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: red;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            color: #ff4b4b;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        #title {
+            margin-left: 10%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="title">Estadísticas de Carrera</h1>
+    <form action="/logout" method="POST">
+        @csrf
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+    </form>
+</header>
+
+<div class="container" id="stats-container">
+    <!-- Aquí se inyectarán las stats con JavaScript -->
+</div>
+
+<script>
+    fetch('http://localhost/TodoF1/todoF1/public/api/stats-carreras')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("No se pudo cargar la lista de estadísticas.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const container = document.getElementById('stats-container');
+            data.forEach(stat => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <h2>Piloto: ${stat.piloto?.nombre || 'Desconocido'}</h2>
+                    <p><strong>Escudería:</strong> ${stat.escuderia?.nombre || 'Sin asignar'}</p>
+                    <p><strong>Gran Premio:</strong> ${stat.gran_premio?.nombre || 'N/A'}</p>
+                    <p><strong>Posición:</strong> ${stat.posicion}</p>
+                    <p><strong>Tiempo Total:</strong> ${stat.tiempo_total}</p>
+                    <p><strong>Puntos:</strong> ${stat.puntos}</p>
+                    <p><strong>Vuelta Rápida:</strong> ${stat.vuelta_rapida ? 'Sí' : 'No'}</p>
+                    <p><strong>Pole Position:</strong> ${stat.pole_position ? 'Sí' : 'No'}</p>
+                `;
+                container.appendChild(card);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            document.getElementById('stats-container').innerHTML = '<p>Error al cargar estadísticas.</p>';
+        });
+</script>
+
+</body>
+</html>
+

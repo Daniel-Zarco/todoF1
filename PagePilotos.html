@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pilotos F1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      font-family: 'Urbanist', sans-serif;
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      padding: 20px 40px;
+      background-color: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    }
+
+    header h1 {
+      color: #fff;
+      text-shadow: 0 0 10px red;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: #ff4b4b;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Pilotos F1 (desde API)</h1>
+</header>
+
+<div class="container" id="pilotos-container"></div>
+
+<script>
+  const year = 2024;
+
+  fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
+    .then(response => response.json())
+    .then(data => {
+      const races = data.MRData.RaceTable.Races;
+      const pilotosUnicos = new Map();
+
+      races.forEach(race => {
+        race.Results.forEach(result => {
+          const piloto = result.Driver;
+          if (!pilotosUnicos.has(piloto.driverId)) {
+            pilotosUnicos.set(piloto.driverId, {
+              nombre: `${piloto.givenName} ${piloto.familyName}`,
+              nacionalidad: piloto.nationality,
+              fechaNacimiento: piloto.dateOfBirth,
+            });
+          }
+        });
+      });
+
+      const container = document.getElementById('pilotos-container');
+
+      pilotosUnicos.forEach(piloto => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+          <h2>${piloto.nombre}</h2>
+          <p><strong>Nacionalidad:</strong> ${piloto.nacionalidad}</p>
+          <p><strong>Fecha de nacimiento:</strong> ${piloto.fechaNacimiento}</p>
+        `;
+        container.appendChild(card);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      document.getElementById('pilotos-container').innerHTML = '<p>Error al cargar pilotos desde la API.</p>';
+    });
+</script>
+
+</body>
+</html>
+

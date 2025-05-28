@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo F1 - Inicio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #2a0000, #000000);
+            background-size: 400% 400%;
+            animation: movimientoFondo 15s ease infinite;
+            color: white;
+        }
+
+        @keyframes movimientoFondo {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 20px;
+        }
+
+        #title {
+            font-size: 4em;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8),
+                         0 0 15px #e10600;
+            transition: all 0.3s ease-in-out;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            width: 240px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 40px rgba(255, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.4), transparent, rgba(255, 0, 0, 0.4));
+            animation: rotate 6s linear infinite;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 60px rgba(255, 0, 0, 0.15);
+            }
+
+        .card * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animación */
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+
+        .card h2 {
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .card p {
+            font-size: 1em;
+            color: #ddd;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #e10600;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .card a:hover {
+            background-color: #b00000;
+        }
+
+        .logout-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid red;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .logout-btn:hover {
+            background-color: red;
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="logout-container">
+    <form action="/logout" method="POST">
+        <!-- Asegúrate de proteger con CSRF si usas Laravel -->
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+    </form>
+    </div>
+
+    <header>
+        <span id="title">Todo F1</span>
+        <p>Gestiona tu mundo de Fórmula 1</p>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2>Pilotos</h2>
+            <p>Consulta y gestiona información de todos los pilotos de F1.</p>
+            <a href="/TodoF1/todoF1/PagePilotos.html">Ver Pilotos</a>
+        </div>
+        <div class="card">
+            <h2>Escuderías</h2>
+            <p>Conoce las escuderías históricas y actuales.</p>
+            <a href="/TodoF1/todoF1/PageEscuderias.html">Ver Escuderías</a>
+        </div>
+        <div class="card">
+            <h2>Circuitos</h2>
+            <p>Explora los circuitos más emblemáticos del campeonato.</p>
+            <a href="/TodoF1/todoF1/PageCircuitos.html">Ver Circuitos</a>
+        </div>
+        <div class="card">
+            <h2>Carreras</h2>
+            <p>Revisa el calendario de carreras y sus resultados.</p>
+            <a href="/TodoF1/todoF1/PageCarreras.html">Ver Carreras</a>
+        </div>
+    </main>
+</body>
+</html>
+
+
