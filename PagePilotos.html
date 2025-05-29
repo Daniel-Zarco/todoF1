@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <title>Pilotos F1</title>
@@ -21,6 +22,7 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+      z-index: 10;
     }
 
     header h1 {
@@ -59,58 +61,126 @@
       font-size: 0.95rem;
       color: #ccc;
     }
+
+    /* Estilo del botón de retroceso */
+    .back-button {
+      position: fixed;
+      top: 150px;
+      /* Ajusta la posición para que no se superponga con el header */
+      left: 50px;
+      z-index: 1000;
+
+      background: #000;
+      color: #fff;
+      border: 2px solid #e10600;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      font-family: 'Urbanist', sans-serif;
+      text-transform: uppercase;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .back-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+    }
+
+    .back-button:hover::before {
+      left: 100%;
+    }
+
+    .back-button:hover {
+      background-color: #e10600;
+      color: white;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    }
   </style>
+
 </head>
+
 <body>
 
-<header>
-  <h1>Pilotos F1 (desde API)</h1>
-</header>
 
-<div class="container" id="pilotos-container"></div>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const year = params.get("year");
 
-  fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
-    .then(response => response.json())
-    .then(data => {
-      const races = data.MRData.RaceTable.Races;
-      const pilotosUnicos = new Map();
+  <header>
+    <h1>Pilotos F1 (desde API)</h1>
+  </header>
 
-      races.forEach(race => {
-        race.Results.forEach(result => {
-          const piloto = result.Driver;
-          if (!pilotosUnicos.has(piloto.driverId)) {
-            pilotosUnicos.set(piloto.driverId, {
-              nombre: `${piloto.givenName} ${piloto.familyName}`,
-              nacionalidad: piloto.nationality,
-              fechaNacimiento: piloto.dateOfBirth,
-            });
-          }
+  <!--Boton de retroceso-->
+    <button id="btn-volver" class="back-button">
+      ← Página principal
+    </button>
+
+  <div class="container" id="pilotos-container">
+
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const year = params.get("year");
+
+    fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
+      .then(response => response.json())
+      .then(data => {
+        const races = data.MRData.RaceTable.Races;
+        const pilotosUnicos = new Map();
+
+        races.forEach(race => {
+          race.Results.forEach(result => {
+            const piloto = result.Driver;
+            if (!pilotosUnicos.has(piloto.driverId)) {
+              pilotosUnicos.set(piloto.driverId, {
+                nombre: `${piloto.givenName} ${piloto.familyName}`,
+                nacionalidad: piloto.nationality,
+                fechaNacimiento: piloto.dateOfBirth,
+              });
+            }
+          });
         });
-      });
 
-      const container = document.getElementById('pilotos-container');
+        const container = document.getElementById('pilotos-container');
 
-      pilotosUnicos.forEach(piloto => {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.innerHTML = `
+        pilotosUnicos.forEach(piloto => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
           <h2>${piloto.nombre}</h2>
           <p><strong>Nacionalidad:</strong> ${piloto.nacionalidad}</p>
           <p><strong>Fecha de nacimiento:</strong> ${piloto.fechaNacimiento}</p>
         `;
-        container.appendChild(card);
+          container.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById('pilotos-container').innerHTML = '<p>Error al cargar pilotos desde la API.</p>';
       });
-    })
-    .catch(error => {
-      console.error(error);
-      document.getElementById('pilotos-container').innerHTML = '<p>Error al cargar pilotos desde la API.</p>';
+
+    /*Botón de retroceso*/
+    document.getElementById('btn-volver').addEventListener('click', function () {
+      const params = new URLSearchParams(window.location.search);
+      const year = params.get('year');
+
+      // Si hay año, añadirlo a la redirección
+      let url = '/TodoF1/todoF1/PagePrincipal.html';
+      if (year) { url += `?year=${year}`; }
+      window.location.href = url;
     });
-</script>
+  </script>
 
 </body>
-</html>
 
+</html>

@@ -2,12 +2,13 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Todo F1 - Inicio</title>
     <style>
-
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
@@ -18,7 +19,7 @@
             padding: 0;
             font-family: 'Segoe UI', sans-serif;
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                            url('Images/LogoPrincipal.png');
+                url('Images/LogoPrincipal.png');
             background-repeat: no-repeat;
             background-position: center center;
             background-attachment: fixed;
@@ -36,13 +37,13 @@
             align-items: center;
         }
 
-        p{
+        p {
             font-size: 20px;
             padding-top: 0px;
             margin-top: 0px;
         }
 
-        #InitSes{
+        #InitSes {
             margin-top: 10px;
         }
 
@@ -59,7 +60,7 @@
 
         #title:hover {
             text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9),
-                        0 0 25px #ff1e1e;
+                0 0 25px #ff1e1e;
             transform: scale(1.05);
             color: #ffecec;
         }
@@ -90,37 +91,40 @@
         }
 
         .btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 15px #f0eeee;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px #f0eeee;
         }
 
         .btn:hover::before {
-        animation: shine 1s forwards;
+            animation: shine 1s forwards;
         }
 
         .btn:hover::before {
             left: 100%;
-            }
+        }
 
-            @keyframes shine {
+        @keyframes shine {
             0% {
                 left: -100%;
             }
+
             50% {
                 left: 100%;
             }
+
             100% {
                 left: 100%;
             }
         }
-
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Bienvenido a:<span id="title">&nbsp TodoF1</span></h1>
-        <p>La aplicación donde podrás consultar todos los<br> datos de la F1  en los últimos 10 años.</p>
+        <p>La aplicación donde podrás consultar todos los<br> datos de la F1 desde el inicio de los tiempos.</p>
         <div id="InitSes"><a href="/TodoF1/todoF1/InitSes.html" class="btn">Iniciar Sesión</a></div>
     </div>
 </body>
+
 </html>

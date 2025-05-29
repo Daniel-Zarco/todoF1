@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Todo F1 - Inicio</title>
@@ -21,9 +22,11 @@
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
@@ -38,7 +41,7 @@
             font-size: 4em;
             font-weight: bold;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8),
-                         0 0 15px #e10600;
+                0 0 15px #e10600;
             transition: all 0.3s ease-in-out;
             letter-spacing: 2px;
         }
@@ -83,7 +86,7 @@
         .card:hover {
             transform: translateY(-10px) scale(1.03);
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 60px rgba(255, 0, 0, 0.15);
-            }
+        }
 
         .card * {
             position: relative;
@@ -95,6 +98,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -155,78 +159,123 @@
         /*PARA EL INPUT DE AÑOS*/
 
         #anioInput {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
 
-.year-selector {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 0, 0, 0.4);
-    padding: 20px 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    transition: transform 0.3s ease;
-}
+        .year-selector {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            transition: transform 0.3s ease;
+        }
 
-.year-selector:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-}
+        .year-selector:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+        }
 
-.year-selector label {
-    font-size: 1.3em;
-    color: #ffffff;
-    text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
-}
+        .year-selector label {
+            font-size: 1.3em;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+        }
 
-.year-selector select {
-    background-color: #000;
-    color: #fff;
-    border: 2px solid #e10600;
-    border-radius: 10px;
-    padding: 10px 16px;
-    font-size: 1em;
-    outline: none;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
+        .year-selector select {
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #e10600;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 1em;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.year-selector select:hover,
-.year-selector select:focus {
-    border-color: #ff1a1a;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-}
+        .year-selector select:hover,
+        .year-selector select:focus {
+            border-color: #ff1a1a;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
 
+
+        .back-button {
+            position: fixed;
+            top: 110px;
+            left: 100px;
+            z-index: 1000;
+            width: 150px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #e10600;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            font-family: 'Urbanist', sans-serif;
+            text-transform: uppercase;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background-color: #e10600;
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+        }
     </style>
 </head>
+
 <body>
 
     <div class="logout-container">
-    <form action="/logout" method="POST">
-        <!-- Asegúrate de proteger con CSRF si usas Laravel -->
-        <button type="submit" class="logout-btn">Cerrar sesión</button>
-    </form>
+        
+        <form action="/logout" method="POST">
+            <!-- Asegúrate de proteger con CSRF si usas Laravel -->
+            <button type="submit" class="logout-btn">Cerrar sesión</button>
+        </form>
     </div>
 
     <header>
         <span id="title">Todo F1</span>
         <p>Gestiona tu mundo de Fórmula 1</p>
         <div id="anioInput">
-                <section class="year-selector" style="text-align: center; margin-top: 20px;">
-                    <label for="anio" style="font-size: 1.1em; margin-right: 10px;">Selecciona un año:</label>
-                    <select id="anio" name="anio" style="padding: 8px 12px; border-radius: 8px; font-size: 1em;">
-                        <option value="" disabled selected>Elige un año</option>
-                    </select>
+            <section class="year-selector" style="text-align: center; margin-top: 20px;">
+                <label for="anio" style="font-size: 1.1em; margin-right: 10px;">Selecciona un año:</label>
+                <select id="anio" name="anio" style="padding: 8px 12px; border-radius: 8px; font-size: 1em;">
+                    <option value="" disabled selected>Elige un año</option>
+                </select>
             </section>
         </div>
     </header>
 
     <main class="container">
-         
+
         <div class="card">
             <h2>Pilotos</h2>
             <p>Consulta y gestiona información de todos los pilotos de F1.</p>
@@ -251,7 +300,7 @@
 </body>
 
 <script>
-    // Rellenar dinámicamente los años del 1999 al 2025
+    // Rellenar dinámicamente los años del 1950 al 2024
     const select = document.getElementById("anio");
     for (let y = 1950; y <= 2024; y++) {
         const opt = document.createElement("option");
@@ -260,23 +309,35 @@
         select.appendChild(opt);
     }
 
+    // Leer el año de la URL (si viene) y marcarlo como seleccionado
+    const params = new URLSearchParams(window.location.search);
+    const year = params.get("year");
+    if (year) {
+        select.value = year;
+    }
+
     // Capturar cambio de selección
     select.addEventListener('change', function () {
         console.log("Año seleccionado:", this.value);
-        // Aquí podrías hacer algo como redirigir o filtrar
-        // window.location.href = `/carreras?year=${this.value}`;
+        // Aquí podrías guardar en localStorage o activar filtros
     });
 
+    // Función para redirigir a distintas páginas con el año seleccionado
     function redirigirConAño(tipo) {
         const año = document.getElementById("anio").value;
         if (!año) {
-        alert("Por favor selecciona un año.");
-        return;
+            alert("Por favor selecciona un año.");
+            return;
         }
-        if(tipo=="Pilotos"){window.location.href = `/TodoF1/todoF1/PagePilotos.html?year=${año}`;}
-        else if(tipo=="Escuderia"){window.location.href = `/TodoF1/todoF1/PageEscuderias.html?year=${año}`;}
-        else if(tipo=="Circuitos"){window.location.href = `/TodoF1/todoF1/PageCircuitos.html?year=${año}`;}
-        else if(tipo=="Carreras"){window.location.href = `/TodoF1/todoF1/PageCarreras.html?year=${año}`;}
+
+        const rutas = {
+            "Pilotos": `/TodoF1/todoF1/PagePilotos.html?year=${año}`,
+            "Escuderia": `/TodoF1/todoF1/PageEscuderias.html?year=${año}`,
+            "Circuitos": `/TodoF1/todoF1/PageCircuitos.html?year=${año}`,
+            "Carreras": `/TodoF1/todoF1/PageCarreras.html?year=${año}`
+        };
+
+        window.location.href = rutas[tipo] || "/";
     }
 </script>
 

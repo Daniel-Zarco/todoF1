@@ -1,159 +1,206 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inicio de Sesión</title>
-  <style>
-    /* Estilo del video */
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio de Sesión</title>
+    <style>
+        /* Fondo y cuerpo */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', sans-serif;
+            
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-    /* Contenido encima del video */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-align: center;
-      
-    }
+        /* Video de fondo */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.3);
+        }
 
-    .login-box {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      width: 300px;
-    }
+        /* Caja del login */
+        .login-box {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: entrada 1s ease forwards;
+            border: 3px solid rgba(255, 0, 0, 0.3);
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-    }
+        @keyframes entrada {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
 
-    .btn {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
-      transform: skewX(-20deg);
-      pointer-events: none;
-    }
+        /* Título */
+        .login-box h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+            letter-spacing: 1px;
+        }
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    }
+        /* Inputs */
+        input[type="text"],
+        input[type="password"] {
+            width: 92%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #1c1c1c;
+            color: white;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .btn:hover::before {
-      animation: shine 1s forwards;
-    }
+        input:focus {
+            border-color: #e10600;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+            outline: none;
+        }
 
-    @keyframes shine {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
+        /* Botones */
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: linear-gradient(to right, #e10600, #9a0000);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            letter-spacing: 0.5px;
+        }
 
-    #submit{
-      width: 320px;
-    }
-  </style>
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        /* Texto adicional */
+        p {
+            margin-top: 18px;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        /* Mensajes de estado */
+        #error {
+            color: #ff4b4b;
+            margin-top: 10px;
+        }
+
+        #success {
+            color: lightgreen;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 100px;
+            left: 100px;
+            z-index: 1000;
+            width: 150px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #e10600;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            font-family: 'Urbanist', sans-serif;
+            text-transform: uppercase;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background-color: #e10600;
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- VIDEO de fondo -->
-  <video id="background-video" autoplay loop muted playsinline>
-    <source src="/TodoF1/todoF1/Images/InitSes2.mp4" type="video/mp4" />
-    Tu navegador no soporta video HTML5.
-  </video>
+    <!-- VIDEO de fondo -->
+    <video id="background-video" autoplay loop muted playsinline>
+        <source src="/TodoF1/todoF1/Images/InitSes5.mp4" type="video/mp4" />
+        Tu navegador no soporta video HTML5.
+    </video>
 
-  <!-- Formulario de login REDIRECCIONA PERO NO CREA LOS USUARIOS EN BBDDD-->
-  <div class="login-box">
-    <h2>Iniciar Sesión</h2>
-    <form id="loginForm" action="/TodoF1/todoF1/PagePrincipal.html">
-      <input type="text" id="usuario" name="usuario" placeholder="Usuario" required />
-      <input type="password" id="password" name="password" placeholder="Contraseña" required />
-      <button type="submit">Iniciar sesión</button>
-    </form>
+    <!-- Botón Regreso -->
+    <button onclick="window.location.href='/TodoF1/todoF1/index.html'" class="back-button">
+        ← Volver
+    </button>
 
-    <p>¿No tienes cuenta?</p>
-    <button class="btn" onclick="window.location.href='/TodoF1/todoF1/Registro.html'">Registrarse</button>
+    <!-- Formulario de login REDIRECCIONA PERO NO CREA LOS USUARIOS EN BBDDD-->
+    <div class="login-box">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm" action="/TodoF1/todoF1/PagePrincipal.html">
+            <input type="text" id="usuario" name="usuario" placeholder="Usuario" required />
+            <input type="password" id="password" name="password" placeholder="Contraseña" required />
+            <button type="submit">Iniciar sesión</button>
+        </form>
 
-    <!--
-    <form id="loginForm">
-      <input type="text" id="usuario" name="usuario" placeholder="Usuario" required />
-      <input type="password" id="password" name="password" placeholder="Contraseña" required />
-      <button type="submit">Iniciar sesión</button>
-    </form>
-    -->
-    
+        <p>¿No tienes cuenta?</p>
+        <button class="btn" onclick="window.location.href='/TodoF1/todoF1/Registro.html'">Registrarse
+        </button>
 
-<p id="error" style="color: red;"></p>
+        <p id="error" style="color: red;"></p>
 
-<!--
-<script>
-  document.getElementById('loginForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const usuario = document.getElementById('usuario').value;
-    const password = document.getElementById('password').value;
-
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // No incluimos CSRF
-      },
-      body: JSON.stringify({ usuario, password })
-    });
-
-    if (response.ok) {
-      // Redirigir si es exitoso
-      window.location.href = "/PagePrincipal.html";
-    } else {
-      const data = await response.json();
-      document.getElementById('error').textContent = data.message || 'Error al iniciar sesión';
-    }
-  });
-</script>
--->
-
- </div>
-<!-- Mostrar mensaje de error si viene en la URL --> 
-
+    </div>
+    <script>
+      document.getElementById('background-video').playbackRate = 0.5; // 50% más lento
+    </script>
 </body>
 </html>
