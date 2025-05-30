@@ -45,6 +45,7 @@
       padding: 20px;
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -66,7 +67,6 @@
     .back-button {
       position: fixed;
       top: 150px;
-      /* Ajusta la posición para que no se superponga con el header */
       left: 50px;
       z-index: 1000;
 
@@ -111,7 +111,7 @@
 
 <body>
 <header>
-  <h1>Circuitos F1 (desde API)</h1>
+  <h1>Circuitos F1</h1>
 </header>
 
 <!-- Boton retroceso fuera del header -->
@@ -136,11 +136,18 @@
           const card = document.createElement('div');
           card.classList.add('card');
           card.innerHTML = `
-          <h2>${circuito.circuitName}</h2>
-          <p><strong>País:</strong> ${circuito.Location.country}</p>
-          <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
-          <p><strong>Fecha:</strong> ${race.date}</p>
-        `;
+            <h2>${circuito.circuitName}</h2>
+            <p><strong>País:</strong> ${circuito.Location.country}</p>
+            <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
+            <p><strong>Fecha:</strong> ${race.date}</p>
+          `;
+
+          // Al hacer clic en la tarjeta, redirige a PageStats con circuito y año
+          card.addEventListener('click', function () {
+            const circuitoParam = encodeURIComponent(circuito.circuitName);
+            window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
+          });
+
           container.appendChild(card);
         });
       })
@@ -151,19 +158,13 @@
 
     /*Boton retroceso*/
     document.getElementById('btn-volver').addEventListener('click', function () {
-      const params = new URLSearchParams(window.location.search);
-      const year = params.get('year');
-
-      // Si hay año, añadirlo a la redirección
       let url = '/TodoF1/todoF1/index.html/PagePrincipal.html';
       if (year) {
         url += `?year=${year}`;
       }
-
       window.location.href = url;
     });
   </script>
 
 </body>
-
 </html>

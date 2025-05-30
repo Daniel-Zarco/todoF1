@@ -112,7 +112,7 @@
 <body>
 
   <header>
-    <h1>Escuderías F1 (desde API)</h1>
+    <h1>Escuderías F1</h1>
   </header>
   <!--Boton de retroceso-->
     <button id="btn-volver" class="back-button">
@@ -125,7 +125,7 @@
     const year = params.get("year");
 
 
-    fetch(`https://ergast.com/api/f1/${2024}/results.json?limit=1000`)
+    fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
       .then(response => response.json())
       .then(data => {
         const races = data.MRData.RaceTable.Races;

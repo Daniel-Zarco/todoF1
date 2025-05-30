@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 class ImportarDatosF1 extends Command
 {
     protected $signature = 'f1:importar';
-    protected $description = 'Importar resultados F1 de los últimos 10 años';
+    protected $description = 'Importar resultados F1';
 
     protected $f1Api;
 

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Estadísticas del Circuito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      font-family: 'Urbanist', sans-serif;
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #e10600;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #ff4b4b;
+    }
+
+    .stats-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+      max-width: 800px;
+      margin: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    th {
+      background-color: rgba(255, 0, 0, 0.2);
+      text-align: left;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .highlight {
+      color: #e10600;
+      font-weight: bold;
+    }
+
+    .back-button {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      border: 2px solid #e10600;
+      padding: 8px 16px;
+      margin-top: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-button:hover {
+      background-color: #e10600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stats-container">
+    <h1 id="titulo"></h1>
+    <div id="info-adicional"></div>
+    <div id="vuelta-rapida"></div>
+    <table id="tabla-resultados">
+      <thead>
+        <tr>
+          <th>Posición</th>
+          <th>Piloto</th>
+          <th>Escudería</th>
+          <th>Vueltas</th>
+          <th>Tiempo Final</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <a href="#" id="btn-volver" class="back-button">← Volver a Circuitos</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const circuito = params.get("circuito");
+    const year = params.get("year");
+
+    const titulo = document.getElementById("titulo");
+    titulo.textContent = `Estadísticas del ${circuito} (${year})`;
+
+    const tbody = document.querySelector("#tabla-resultados tbody");
+    const infoAdicional = document.getElementById("info-adicional");
+    const vueltaRapidaDiv = document.getElementById("vuelta-rapida");
+
+    fetch(`https://ergast.com/api/f1/${year}.json`)
+      .then(response => response.json())
+      .then(data => {
+        const races = data.MRData.RaceTable.Races;
+        const carrera = races.find(race => race.Circuit.circuitName === circuito);
+
+        if (!carrera) {
+          tbody.innerHTML = `<tr><td colspan="5">No se encontró la carrera de ${circuito} en ${year}.</td></tr>`;
+          return;
+        }
+
+        infoAdicional.innerHTML = `
+          <p><span class="highlight">País:</span> ${carrera.Circuit.Location.country}</p>
+          <p><span class="highlight">Ciudad:</span> ${carrera.Circuit.Location.locality}</p>
+          <p><span class="highlight">Fecha:</span> ${carrera.date}</p>
+        `;
+
+        return fetch(`https://ergast.com/api/f1/${year}/${carrera.round}/results.json`);
+      })
+      .then(response => response ? response.json() : null)
+      .then(data => {
+        if (!data) return;
+
+        const results = data.MRData.RaceTable.Races[0]?.Results;
+        if (!results || results.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5">No hay resultados disponibles para esta carrera.</td></tr>`;
+          return;
+        }
+
+        // Mostrar tabla de resultados
+        results.forEach(result => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${result.position}</td>
+            <td>${result.Driver.givenName} ${result.Driver.familyName}</td>
+            <td>${result.Constructor.name}</td>
+            <td>${result.laps}</td>
+            <td>${result.Time ? result.Time.time : 'N/A'}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        // Mostrar vuelta rápida
+        let fastestLap = null;
+        results.forEach(result => {
+          if (result.FastestLap && result.FastestLap.rank === "1") {
+            fastestLap = result.FastestLap;
+          }
+        });
+
+        if (fastestLap) {
+          const driver = results.find(r => r.FastestLap && r.FastestLap.rank === "1").Driver;
+          vueltaRapidaDiv.innerHTML = `
+            <p><span class="highlight">Vuelta rápida:</span> ${driver.givenName} ${driver.familyName} - ${fastestLap.Time.time} (Vuelta ${fastestLap.lap})</p>
+          `;
+        } else {
+          vueltaRapidaDiv.innerHTML = `
+            <p><span class="highlight">Vuelta rápida:</span> No disponible en la API para este año.</p>
+          `;
+        }
+
+      })
+      .catch(error => {
+        console.error(error);
+        tbody.innerHTML = `<tr><td colspan="5">Error al cargar los datos.</td></tr>`;
+      });
+
+    document.getElementById("btn-volver").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.history.back();//Para volver a la página anterior
+    });
+  </script>
+
+</body>
+</html>
+

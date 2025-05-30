@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      background: linear-gradient(135deg, #000000, #1c1c1c);
       font-family: 'Urbanist', sans-serif;
       color: white;
       min-height: 100vh;
@@ -21,13 +21,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-      z-index: 10;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
     }
 
     header h1 {
       color: #fff;
       text-shadow: 0 0 10px red;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
     }
 
     .container {
@@ -35,41 +36,69 @@
       margin: 40px auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      gap: 30px;
       padding: 0 20px;
     }
 
     .card {
-      background: #1a1a1a;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 0, 0, 0.3);
       border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, rgba(255, 0, 0, 0.2), transparent, rgba(255, 0, 0, 0.2));
+      animation: rotate 6s linear infinite;
+      z-index: 0;
+      opacity: 0.2;
+    }
+
+    .card * {
+      position: relative;
+      z-index: 1;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
     }
 
     .card h2 {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
       color: #ff4b4b;
+      text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
     }
 
     .card p {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #ccc;
     }
 
-    /* Estilo del botón de retroceso */
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     .back-button {
       position: fixed;
       top: 150px;
-      /* Ajusta la posición para que no se superponga con el header */
       left: 50px;
       z-index: 1000;
-
       background: #000;
       color: #fff;
       border: 2px solid #e10600;
@@ -107,26 +136,18 @@
       box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
     }
   </style>
-
 </head>
 
 <body>
-
-
-
-
   <header>
-    <h1>Pilotos F1 (desde API)</h1>
+    <h1>Pilotos F1</h1>
   </header>
 
-  <!--Boton de retroceso-->
-    <button id="btn-volver" class="back-button">
-      ← Página principal
-    </button>
+  <button id="btn-volver" class="back-button">
+    ← Página principal
+  </button>
 
-  <div class="container" id="pilotos-container">
-
-  </div>
+  <div class="container" id="pilotos-container"></div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -143,6 +164,7 @@
             const piloto = result.Driver;
             if (!pilotosUnicos.has(piloto.driverId)) {
               pilotosUnicos.set(piloto.driverId, {
+                id: piloto.driverId,
                 nombre: `${piloto.givenName} ${piloto.familyName}`,
                 nacionalidad: piloto.nationality,
                 fechaNacimiento: piloto.dateOfBirth,
@@ -157,10 +179,16 @@
           const card = document.createElement('div');
           card.classList.add('card');
           card.innerHTML = `
-          <h2>${piloto.nombre}</h2>
-          <p><strong>Nacionalidad:</strong> ${piloto.nacionalidad}</p>
-          <p><strong>Fecha de nacimiento:</strong> ${piloto.fechaNacimiento}</p>
-        `;
+            <h2>${piloto.nombre}</h2>
+            <p><strong>Nacionalidad:</strong> ${piloto.nacionalidad}</p>
+            <p><strong>Fecha de nacimiento:</strong> ${piloto.fechaNacimiento}</p>
+          `;
+
+          card.addEventListener('click', () => {
+            const pilotoParam = encodeURIComponent(piloto.nombre);
+            window.location.href = `PageStatsPiloto.html?piloto=${pilotoParam}&year=${year}`;
+          });
+
           container.appendChild(card);
         });
       })
@@ -169,18 +197,12 @@
         document.getElementById('pilotos-container').innerHTML = '<p>Error al cargar pilotos desde la API.</p>';
       });
 
-    /*Botón de retroceso*/
     document.getElementById('btn-volver').addEventListener('click', function () {
-      const params = new URLSearchParams(window.location.search);
-      const year = params.get('year');
-
-      // Si hay año, añadirlo a la redirección
       let url = '/TodoF1/todoF1/index.html/PagePrincipal.html';
       if (year) { url += `?year=${year}`; }
       window.location.href = url;
     });
   </script>
-
 </body>
-
 </html>
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Estadísticas del Piloto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      font-family: 'Urbanist', sans-serif;
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #e10600;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .info-block {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+      text-align: center;
+      backdrop-filter: blur(5px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .info-block:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    }
+
+    .info-block .label {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff4b4b;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .info-block .value {
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    .back-button {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      border: 2px solid #e10600;
+      padding: 8px 16px;
+      margin: 20px auto;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: block;
+      max-width: 200px;
+      text-align: center;
+    }
+
+    .back-button:hover {
+      background-color: #e10600;
+    }
+
+    .info-block.wiki-block {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: 233px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1 id="titulo">Estadísticas del Piloto</h1>
+  <div class="grid-container">
+    <div class="info-block"><span class="label">Edad:</span><span class="value" id="edad">Cargando...</span></div>
+    <div class="info-block"><span class="label">Nacionalidad:</span><span class="value" id="nacionalidad">Cargando...</span></div>
+    <div class="info-block"><span class="label">Inicio en F1:</span><span class="value" id="inicio">Cargando...</span></div>
+    <div class="info-block"><span class="label">Escuderías:</span><span class="value" id="escuderias">Cargando...</span></div>
+    <div class="info-block"><span class="label">Carreras ganadas:</span><span class="value" id="victorias">Cargando...</span></div>
+    <div class="info-block"><span class="label">Podios:</span><span class="value" id="podios">Cargando...</span></div>
+    <div class="info-block"><span class="label">Mejor resultado:</span><span class="value" id="mejor-resultado">Cargando...</span></div>
+    <div class="info-block"><span class="label">Temporadas:</span><span class="value" id="temporadas">Cargando...</span></div>
+    <div class="info-block wiki-block">
+      <span class="label">Wikipedia:</span>
+      <a id="wiki" href="#" target="_blank" class="value" style="color:#fff; text-decoration:underline;">Ver más</a>
+    </div>
+  </div>
+
+  <a href="#" id="btn-volver" class="back-button">← Volver a Pilotos</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pilotoNombre = params.get("piloto");
+    const year = params.get("year");
+
+    document.getElementById("titulo").textContent = `Estadísticas de ${pilotoNombre}`;
+
+    const edadElem = document.getElementById("edad");
+    const nacionalidadElem = document.getElementById("nacionalidad");
+    const inicioElem = document.getElementById("inicio");
+    const escuderiasElem = document.getElementById("escuderias");
+    const victoriasElem = document.getElementById("victorias");
+    const podiosElem = document.getElementById("podios");
+    const mejorResultadoElem = document.getElementById("mejor-resultado");
+    const temporadasElem = document.getElementById("temporadas");
+    const wikiElem = document.getElementById("wiki");
+
+    let pilotoId = "";
+
+    fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
+      .then(response => response.json())
+      .then(data => {
+        const races = data.MRData.RaceTable.Races;
+        races.forEach(race => {
+          race.Results.forEach(result => {
+            const nombreCompleto = `${result.Driver.givenName} ${result.Driver.familyName}`;
+            if (nombreCompleto === pilotoNombre) {
+              pilotoId = result.Driver.driverId;
+            }
+          });
+        });
+
+        if (!pilotoId) {
+          edadElem.textContent = 'No encontrado';
+          nacionalidadElem.textContent = 'No encontrado';
+          return;
+        }
+
+        fetch(`https://ergast.com/api/f1/drivers/${pilotoId}.json`)
+          .then(res => res.json())
+          .then(driverData => {
+            const driver = driverData.MRData.DriverTable.Drivers[0];
+            const birthDate = new Date(driver.dateOfBirth);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            if (today.getMonth() < birthDate.getMonth() ||
+              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+              age--;
+            }
+            edadElem.textContent = `${age} años`;
+            nacionalidadElem.textContent = driver.nationality;
+            wikiElem.href = driver.url;
+
+            fetch(`https://ergast.com/api/f1/drivers/${pilotoId}/seasons.json`)
+              .then(res => res.json())
+              .then(seasonsData => {
+                temporadasElem.textContent = seasonsData.MRData.SeasonTable.Seasons.length;
+              });
+
+            fetch(`https://ergast.com/api/f1/drivers/${pilotoId}/results.json?limit=1000`)
+              .then(res => res.json())
+              .then(resultsData => {
+                const results = resultsData.MRData.RaceTable.Races;
+                let victorias = 0;
+                let podios = 0;
+                let mejorPos = 99;
+                const escuderias = new Set();
+
+                results.forEach(race => {
+                  race.Results.forEach(result => {
+                    escuderias.add(result.Constructor.name);
+                    const pos = parseInt(result.position);
+                    if (pos === 1) victorias++;
+                    if (pos <= 3) podios++;
+                    if (pos < mejorPos) mejorPos = pos;
+                  });
+                });
+
+                escuderiasElem.textContent = [...escuderias].join(", ");
+                victoriasElem.textContent = victorias;
+                podiosElem.textContent = podios;
+                mejorResultadoElem.textContent = mejorPos === 99 ? "N/A" : mejorPos;
+              });
+          });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    document.getElementById("btn-volver").addEventListener("click", e => {
+      e.preventDefault();
+      window.history.back();
+    });
+  </script>
+</body>
+
+</html>

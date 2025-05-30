@@ -1,346 +1,383 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Todo F1 - Inicio</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(-45deg, #000000, #1a1a1a, #2a0000, #000000);
-            background-size: 400% 400%;
-            animation: movimientoFondo 15s ease infinite;
-            color: white;
-        }
-
-        @keyframes movimientoFondo {
-            0% {
-                background-position: 0% 50%;
+    <head>
+        <meta charset="UTF-8" />
+        <title>Todo F1 - Inicio</title>
+        <style>
+            * {
+                box-sizing: border-box;
             }
 
-            50% {
-                background-position: 100% 50%;
+            body {
+                margin: 0;
+                font-family: "Segoe UI", sans-serif;
+                background: linear-gradient(
+                    -45deg,
+                    #000000,
+                    #1a1a1a,
+                    #2a0000,
+                    #000000
+                );
+                background-size: 400% 400%;
+                animation: movimientoFondo 15s ease infinite;
+                color: white;
             }
 
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+            @keyframes movimientoFondo {
+                0% {
+                    background-position: 0% 50%;
+                }
 
-        header {
-            text-align: center;
-            padding: 60px 20px 20px;
-        }
+                50% {
+                    background-position: 100% 50%;
+                }
 
-        #title {
-            font-size: 4em;
-            font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8),
-                0 0 15px #e10600;
-            transition: all 0.3s ease-in-out;
-            letter-spacing: 2px;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .card {
-            position: relative;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 30px;
-            width: 240px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 40px rgba(255, 0, 0, 0.1);
-            backdrop-filter: blur(8px);
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, rgba(255, 0, 0, 0.4), transparent, rgba(255, 0, 0, 0.4));
-            animation: rotate 6s linear infinite;
-            z-index: 0;
-            opacity: 0.15;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 60px rgba(255, 0, 0, 0.15);
-        }
-
-        .card * {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Animación */
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
+                100% {
+                    background-position: 0% 50%;
+                }
             }
 
-            100% {
-                transform: rotate(360deg);
+            header {
+                text-align: center;
+                padding: 60px 20px 20px;
             }
-        }
 
+            #title {
+                font-size: 4em;
+                font-weight: bold;
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 15px #e10600;
+                transition: all 0.3s ease-in-out;
+                letter-spacing: 2px;
+            }
 
+            .container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                padding: 40px;
+                max-width: 1200px;
+                margin: auto;
+            }
 
-        .card h2 {
-            margin-bottom: 10px;
-            font-size: 1.8em;
-        }
+            .card {
+                position: relative;
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 0, 0, 0.1) 0%,
+                    rgba(0, 0, 0, 0.5) 100%
+                );
+                border: 1px solid rgba(255, 0, 0, 0.3);
+                border-radius: 16px;
+                padding: 25px;
+                text-align: center;
+                color: white;
+                box-shadow: 0 0 15px rgba(255, 0, 0, 0.2),
+                    0 0 40px rgba(255, 0, 0, 0.1);
+                backdrop-filter: blur(6px);
+                overflow: hidden;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+                margin: 20px;
+            }
 
-        .card p {
-            font-size: 1em;
-            color: #ddd;
-        }
+            .card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.4),
+                    0 0 60px rgba(255, 0, 0, 0.2);
+                border-color: #e10600;
+            }
 
-        .card a {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #e10600;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
+            .card::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 0, 0, 0.2) 0%,
+                    transparent 70%
+                );
+                animation: pulse 4s infinite;
+                z-index: 0;
+                opacity: 0.2;
+                pointer-events: none;
+            }
 
-        .card a:hover {
-            background-color: #b00000;
-        }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    opacity: 0.2;
+                }
+                50% {
+                    transform: scale(1.5);
+                    opacity: 0.3;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 0.2;
+                }
+            }
 
-        .logout-container {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            z-index: 1000;
-        }
+            .card * {
+                position: relative;
+                z-index: 1;
+            }
 
-        .logout-btn {
-            background-color: transparent;
-            color: white;
-            border: 2px solid red;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-        }
+            .card h2 {
+                margin-bottom: 10px;
+                font-size: 1.8em;
+                color: #ffffff;
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+            }
 
-        .logout-btn:hover {
-            background-color: red;
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-        }
+            .card p {
+                font-size: 1em;
+                color: #ddd;
+            }
 
-        /*PARA EL INPUT DE AÑOS*/
+            .card a {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                background: linear-gradient(to right, #e10600, #900000);
+                color: white;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                letter-spacing: 0.5px;
+                transition: background 0.3s ease, box-shadow 0.3s ease;
+            }
 
-        #anioInput {
-            display: flex;
-            justify-content: center;
-            margin-top: 40px;
-        }
+            .card a:hover {
+                background: linear-gradient(to right, #900000, #e10600);
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            }
 
-        .year-selector {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 0, 0, 0.4);
-            padding: 20px 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-            backdrop-filter: blur(4px);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            transition: transform 0.3s ease;
-        }
+            .logout-container {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                z-index: 1000;
+            }
 
-        .year-selector:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-        }
+            .logout-btn {
+                background-color: transparent;
+                color: white;
+                border: 2px solid red;
+                padding: 8px 16px;
+                border-radius: 10px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            }
 
-        .year-selector label {
-            font-size: 1.3em;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
-        }
+            .logout-btn:hover {
+                background-color: red;
+                color: white;
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            }
 
-        .year-selector select {
-            background-color: #000;
-            color: #fff;
-            border: 2px solid #e10600;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 1em;
-            outline: none;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
+            /*PARA EL INPUT DE AÑOS*/
 
-        .year-selector select:hover,
-        .year-selector select:focus {
-            border-color: #ff1a1a;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
+            #anioInput {
+                display: flex;
+                justify-content: center;
+                margin-top: 40px;
+            }
 
+            .year-selector {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 0, 0, 0.4);
+                padding: 20px 30px;
+                border-radius: 12px;
+                box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+                backdrop-filter: blur(4px);
+                color: white;
+                font-family: "Segoe UI", sans-serif;
+                transition: transform 0.3s ease;
+            }
 
-        .back-button {
-            position: fixed;
-            top: 110px;
-            left: 100px;
-            z-index: 1000;
-            width: 150px;
-            background: #000;
-            color: #fff;
-            border: 2px solid #e10600;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            font-family: 'Urbanist', sans-serif;
-            text-transform: uppercase;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-            overflow: hidden;
-        }
+            .year-selector:hover {
+                transform: scale(1.03);
+                box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+            }
 
-        .back-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-            transform: skewX(-20deg);
-            transition: left 0.5s ease;
-        }
+            .year-selector label {
+                font-size: 1.3em;
+                color: #ffffff;
+                text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+            }
 
-        .back-button:hover::before {
-            left: 100%;
-        }
+            .year-selector select {
+                background-color: #000;
+                color: #fff;
+                border: 2px solid #e10600;
+                border-radius: 10px;
+                padding: 10px 16px;
+                font-size: 1em;
+                outline: none;
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            }
 
-        .back-button:hover {
-            background-color: #e10600;
-            color: white;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-        }
-    </style>
-</head>
+            .year-selector select:hover,
+            .year-selector select:focus {
+                border-color: #ff1a1a;
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            }
 
-<body>
+            .back-button {
+                position: fixed;
+                top: 110px;
+                left: 100px;
+                z-index: 1000;
+                width: 150px;
+                background: #000;
+                color: #fff;
+                border: 2px solid #e10600;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                font-family: "Urbanist", sans-serif;
+                text-transform: uppercase;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+                overflow: hidden;
+            }
 
-    <div class="logout-container">
-        
-        <form action="/logout" method="POST">
-            <!-- Asegúrate de proteger con CSRF si usas Laravel -->
-            <button type="submit" class="logout-btn">Cerrar sesión</button>
-        </form>
-    </div>
+            .back-button::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    120deg,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0.3),
+                    rgba(255, 255, 255, 0)
+                );
+                transform: skewX(-20deg);
+                transition: left 0.5s ease;
+            }
 
-    <header>
-        <span id="title">Todo F1</span>
-        <p>Gestiona tu mundo de Fórmula 1</p>
-        <div id="anioInput">
-            <section class="year-selector" style="text-align: center; margin-top: 20px;">
-                <label for="anio" style="font-size: 1.1em; margin-right: 10px;">Selecciona un año:</label>
-                <select id="anio" name="anio" style="padding: 8px 12px; border-radius: 8px; font-size: 1em;">
-                    <option value="" disabled selected>Elige un año</option>
-                </select>
-            </section>
+            .back-button:hover::before {
+                left: 100%;
+            }
+
+            .back-button:hover {
+                background-color: #e10600;
+                color: white;
+                box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="logout-container">
+            <form action="/logout" method="POST">
+                <!-- Asegúrate de proteger con CSRF si usas Laravel -->
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
         </div>
-    </header>
 
-    <main class="container">
+        <header>
+            <span id="title">Todo F1</span>
+            <p>Gestiona tu mundo de Fórmula 1</p>
+            <div id="anioInput">
+                <section
+                    class="year-selector"
+                    style="text-align: center; margin-top: 20px"
+                >
+                    <label
+                        for="anio"
+                        style="font-size: 1.1em; margin-right: 10px"
+                        >Selecciona un año:</label
+                    >
+                    <select
+                        id="anio"
+                        name="anio"
+                        style="
+                            padding: 8px 12px;
+                            border-radius: 8px;
+                            font-size: 1em;
+                        "
+                    >
+                        <option value="" disabled selected>Elige un año</option>
+                    </select>
+                </section>
+            </div>
+        </header>
 
-        <div class="card">
-            <h2>Pilotos</h2>
-            <p>Consulta y gestiona información de todos los pilotos de F1.</p>
-            <a href="#" onclick="redirigirConAño('Pilotos')">Ver Pilotos</a>
-        </div>
-        <div class="card">
-            <h2>Escuderías</h2>
-            <p>Conoce las escuderías históricas y actuales.</p>
-            <a href="#" onclick="redirigirConAño('Escuderia')">Ver Escuderías</a>
-        </div>
-        <div class="card">
-            <h2>Circuitos</h2>
-            <p>Explora los circuitos más emblemáticos del campeonato.</p>
-            <a href="#" onclick="redirigirConAño('Circuitos')">Ver Circuitos</a>
-        </div>
-        <div class="card">
-            <h2>Carreras</h2>
-            <p>Revisa el calendario de carreras y sus resultados.</p>
-            <a href="#" onclick="redirigirConAño('Carreras')">Ver Carreras</a>
-        </div>
-    </main>
-</body>
+        <main class="container">
+            <div class="card">
+                <h2>Pilotos</h2>
+                <p>
+                    Consulta y gestiona información de todos los pilotos de F1.
+                </p>
+                <a href="#" onclick="redirigirConAño('Pilotos')">Ver Pilotos</a>
+            </div>
+            <div class="card">
+                <h2>Escuderías</h2>
+                <p>Conoce las escuderías históricas y actuales.</p>
+                <a href="#" onclick="redirigirConAño('Escuderia')"
+                    >Ver Escuderías</a
+                >
+            </div>
+            <div class="card">
+                <h2>Circuitos</h2>
+                <p>Explora los circuitos más emblemáticos del campeonato.</p>
+                <a href="#" onclick="redirigirConAño('Circuitos')"
+                    >Ver Circuitos</a
+                >
+            </div>
+        </main>
+    </body>
 
-<script>
-    // Rellenar dinámicamente los años del 1950 al 2024
-    const select = document.getElementById("anio");
-    for (let y = 1950; y <= 2024; y++) {
-        const opt = document.createElement("option");
-        opt.value = y;
-        opt.textContent = y;
-        select.appendChild(opt);
-    }
-
-    // Leer el año de la URL (si viene) y marcarlo como seleccionado
-    const params = new URLSearchParams(window.location.search);
-    const year = params.get("year");
-    if (year) {
-        select.value = year;
-    }
-
-    // Capturar cambio de selección
-    select.addEventListener('change', function () {
-        console.log("Año seleccionado:", this.value);
-        // Aquí podrías guardar en localStorage o activar filtros
-    });
-
-    // Función para redirigir a distintas páginas con el año seleccionado
-    function redirigirConAño(tipo) {
-        const año = document.getElementById("anio").value;
-        if (!año) {
-            alert("Por favor selecciona un año.");
-            return;
+    <script>
+        // Rellenar dinámicamente los años del 1950 al 2024
+        const select = document.getElementById("anio");
+        for (let y = 1950; y <= 2024; y++) {
+            const opt = document.createElement("option");
+            opt.value = y;
+            opt.textContent = y;
+            select.appendChild(opt);
         }
 
-        const rutas = {
-            "Pilotos": `/TodoF1/todoF1/index.html/PagePilotos.html?year=${año}`,
-            "Escuderia": `/TodoF1/todoF1/index.html/PageEscuderias.html?year=${año}`,
-            "Circuitos": `/TodoF1/todoF1/index.html/PageCircuitos.html?year=${año}`,
-            "Carreras": `/TodoF1/todoF1/index.html/PageCarreras.html?year=${año}`
-        };
+        // Leer el año de la URL (si viene) y marcarlo como seleccionado
+        const params = new URLSearchParams(window.location.search);
+        const year = params.get("year");
+        if (year) {
+            select.value = year;
+        }
 
-        window.location.href = rutas[tipo] || "/";
-    }
-</script>
+        // Capturar cambio de selección
+        select.addEventListener("change", function () {
+            console.log("Año seleccionado:", this.value);
+            // Aquí podrías guardar en localStorage o activar filtros
+        });
 
+        // Función para redirigir a distintas páginas con el año seleccionado
+        function redirigirConAño(tipo) {
+            const año = document.getElementById("anio").value;
+            if (!año) {
+                alert("Por favor selecciona un año.");
+                return;
+            }
+
+            const rutas = {
+                Pilotos: `/TodoF1/todoF1/index.html/PagePilotos.html?year=${año}`,
+                Escuderia: `/TodoF1/todoF1/index.html/PageEscuderias.html?year=${año}`,
+                Circuitos: `/TodoF1/todoF1/index.html/PageCircuitos.html?year=${año}`,
+            };
+
+            window.location.href = rutas[tipo] || "/";
+        }
+    </script>
 </html>
-
-
