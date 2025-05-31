@@ -31,39 +31,8 @@
       max-width: 1200px;
       width: 100%;
       justify-content: center;
-    }
-
-    #block-info{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      max-width: 1200px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .foto-block {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid #e10600;
-      border-radius: 15px;
-      padding: 10px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-      width: 400px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-      flex-shrink: 0;
-    }
-
-    .foto-block img {
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 8px;
-    }
-
-    .foto-block .label {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #ff4b4b;
+      align-items: flex-start;
+      position: relative;
     }
 
     .stats-container {
@@ -73,6 +42,40 @@
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
       flex: 1;
       min-width: 300px;
+    }
+
+    .foto-block {
+      text-align: center;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      order: 2;
+      align-self: flex-start;
+      margin-left: auto;
+    }
+
+    .foto-block .label {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ff4b4b;
+      margin-bottom: 8px;
+    }
+
+    .img-wrapper {
+      border: 2px solid #e10600;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      overflow: hidden;
+      display: inline-block;
+      max-width: 400px;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     table {
@@ -123,20 +126,9 @@
 
   <h1 id="titulo"></h1>
   <div class="main-container">
-    <!-- Bloque de la foto -->
-    
-    
     <div class="stats-container">
-      <div id="block-info">
-        <div>
-          <div id="info-adicional"></div>
-          <div id="vuelta-rapida"></div>
-        </div>
-        
-    </div>
-      
-      
-      
+      <div id="info-adicional"></div>
+      <div id="vuelta-rapida"></div>
       <table id="tabla-resultados">
         <thead>
           <tr>
@@ -151,13 +143,13 @@
       </table>
       <a href="#" id="btn-volver" class="back-button">← Volver a Circuitos</a>
     </div>
-      <div class="foto-block">
+
+    <div class="foto-block">
       <span class="label">Foto del Circuito:</span>
       <div class="img-wrapper">
         <img id="circuito-foto" src="" alt="Foto del circuito">
+      </div>
     </div>
-</div>
-
   </div>
 
   <script>
@@ -173,7 +165,7 @@
     const vueltaRapidaDiv = document.getElementById("vuelta-rapida");
     const circuitoFotoElem = document.getElementById("circuito-foto");
 
-    // 1. Buscar imagen en Wikipedia
+    // Obtener la foto del circuito desde Wikipedia
     const wikiTitle = circuito.replace(/ /g, '_');
     fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages|pageprops&titles=${wikiTitle}&piprop=original`)
       .then(res => res.json())
@@ -193,7 +185,7 @@
         circuitoFotoElem.src = '/images/default-circuit.jpg';
       });
 
-    // 2. Datos de la carrera
+    // Datos de la carrera
     fetch(`https://ergast.com/api/f1/${year}.json`)
       .then(response => response.json())
       .then(data => {
