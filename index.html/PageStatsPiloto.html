@@ -117,7 +117,7 @@
 <body>
   <h1 id="titulo">Estadísticas del Piloto</h1>
 
-  <!-- Bloque de la foto movido aquí -->
+  <!-- Bloque de la foto -->
   <div class="foto-block">
     <span class="label">Foto del Piloto:</span>
     <img id="piloto-foto" src="" alt="Foto del piloto">
@@ -184,31 +184,61 @@
           .then(driverData => {
             const driver = driverData.MRData.DriverTable.Drivers[0];
             const birthDate = new Date(driver.dateOfBirth);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            if (today.getMonth() < birthDate.getMonth() ||
-              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-              age--;
-            }
-            edadElem.textContent = `${age} años`;
             nacionalidadElem.textContent = driver.nationality;
             wikiElem.href = driver.url;
 
             // Obtener la foto de Wikipedia
             const wikiTitle = driver.url.split('/').pop();
-            fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&titles=${wikiTitle}&piprop=original`)
+            fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages|pageprops&titles=${wikiTitle}&piprop=original`)
               .then(res => res.json())
               .then(wikiData => {
                 const pages = wikiData.query.pages;
                 const pageId = Object.keys(pages)[0];
-                const imageUrl = pages[pageId].original ? pages[pageId].original.source : '';
+                const page = pages[pageId];
+                const imageUrl = page.original ? page.original.source : '';
                 if (imageUrl) {
                   pilotoFotoElem.src = imageUrl;
                 } else {
                   pilotoFotoElem.src = '/images/default-pilot.jpg';
                 }
-              });
 
+                // Obtener Wikibase Q-ID
+                const qid = page.pageprops && page.pageprops.wikibase_item;
+                if (qid) {
+                  // Fetch a Wikidata para la fecha de fallecimiento
+                fetch(`https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${qid}&property=P570&format=json&origin=*`)
+                  .then(res => res.json())
+                  .then(wikidata => {
+                    const claims = wikidata.claims && wikidata.claims.P570;
+                    if (claims && claims.length > 0) {
+                      // Fallecido
+                      const deathTimeRaw = claims[0].mainsnak.datavalue.value.time;
+                      const deathTimeClean = deathTimeRaw.replace('+', ''); // Quitar '+'
+                      const deathDate = new Date(deathTimeClean);
+                      const ageAtDeath = deathDate.getFullYear() - birthDate.getFullYear();
+                      edadElem.textContent = `Fallecido a los ${ageAtDeath} años`;
+                    } else {
+                      // Vivo
+                      const today = new Date();
+                      let age = today.getFullYear() - birthDate.getFullYear();
+                      if (today.getMonth() < birthDate.getMonth() ||
+                          (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                        age--;
+                      }
+                      edadElem.textContent = `${age} años`;
+                    }
+                  });
+                } else {
+                  // Si no hay Q-ID, asumimos vivo
+                  const today = new Date();
+                  let age = today.getFullYear() - birthDate.getFullYear();
+                  if (today.getMonth() < birthDate.getMonth() ||
+                    (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                    age--;
+                  }
+                  edadElem.textContent = `${age} años`;
+                }
+              });
             fetch(`https://ergast.com/api/f1/drivers/${pilotoId}/seasons.json`)
               .then(res => res.json())
               .then(seasonsData => {
@@ -258,6 +288,7 @@
     });
   </script>
 </body>
+
 
 </html>
 

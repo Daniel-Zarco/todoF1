@@ -43,6 +43,7 @@
       background: #1a1a1a;
       border-radius: 15px;
       padding: 20px;
+      cursor: pointer;
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -149,9 +150,15 @@
           const card = document.createElement('div');
           card.classList.add('card');
           card.innerHTML = `
-          <h2>${escuderia.nombre}</h2>
-          <p><strong>Nacionalidad:</strong> ${escuderia.nacionalidad}</p>
-        `;
+            <h2>${escuderia.nombre}</h2>
+            <p><strong>Nacionalidad:</strong> ${escuderia.nacionalidad}</p>
+          `;
+
+          // 👇 Aquí el evento click que redirige a la stats
+          card.addEventListener('click', () => {
+            window.location.href = `/TodoF1/todoF1/index.html/PageStatsEscuderia.html?escuderia=${encodeURIComponent(escuderia.nombre)}&year=${year}`;
+          });
+
           container.appendChild(card);
         });
       })
@@ -159,6 +166,7 @@
         console.error(error);
         document.getElementById('escuderias-container').innerHTML = '<p>Error al cargar escuderías desde la API.</p>';
       });
+
 
     /*Botón de retroceso*/
     document.getElementById('btn-volver').addEventListener('click', function () {
@@ -170,8 +178,13 @@
       if (year) { url += `?year=${year}`; }
       window.location.href = url;
     });
+
+    /*Onclick en la Escuderia*/
+    container.appendChild(card);
+
+    card.addEventListener('click', () => {
+      window.location.href = `/TodoF1/todoF1/index.html/PageStatsEscuderia.html?escuderia=${encodeURIComponent(escuderia.nombre)}&year=${year}`;
+    });
   </script>
-
 </body>
-
 </html>

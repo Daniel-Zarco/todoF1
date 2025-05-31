@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Estadísticas de la Escudería</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      font-family: 'Urbanist', sans-serif;
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #e10600;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .info-block {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+      margin: 10px auto;
+      max-width: 600px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .info-block:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    }
+
+    .info-block .label {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff4b4b;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .info-block .value {
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    .back-button {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      border: 2px solid #e10600;
+      padding: 8px 16px;
+      margin: 20px auto;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: block;
+      max-width: 200px;
+      text-align: center;
+    }
+
+    .back-button:hover {
+      background-color: #e10600;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="titulo">Estadísticas de la Escudería</h1>
+  <div id="stats-container"></div>
+  <a href="#" id="btn-volver" class="back-button">← Volver a Escuderías</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const escuderia = params.get("escuderia");
+    const year = params.get("year");
+
+    document.getElementById("titulo").textContent = `Estadísticas de ${escuderia}`;
+
+    const container = document.getElementById("stats-container");
+
+    fetch(`https://ergast.com/api/f1/${year}/constructors/${encodeURIComponent(escuderia)}/results.json?limit=1000`)
+      .then(response => response.json())
+      .then(data => {
+        const races = data.MRData.RaceTable.Races;
+
+        // ✅ Si no hay resultados:
+        if (races.length === 0) {
+          container.innerHTML = `<div class="info-block">
+            <span class="label">No hay información disponible para la escudería "${escuderia}" en el año ${year}.</span>
+          </div>`;
+          return;
+        }
+
+        let totalCarreras = races.length;
+        let victorias = 0;
+        let podios = 0;
+        let nacionalidad = "";
+        let totalPuntos = 0;
+        let pilotos = new Set();
+        let posiciones = [];
+
+        races.forEach(race => {
+          race.Results.forEach(result => {
+            nacionalidad = result.Constructor.nationality;
+            pilotos.add(`${result.Driver.givenName} ${result.Driver.familyName}`);
+            totalPuntos += parseFloat(result.points);
+            const pos = parseInt(result.position);
+            if (pos === 1) victorias++;
+            if (pos <= 3) podios++;
+            posiciones.push(pos);
+          });
+        });
+
+        const posMedia = posiciones.length > 0 ? (posiciones.reduce((a, b) => a + b, 0) / posiciones.length).toFixed(2) : "N/A";
+
+        const stats = [
+          { label: "Nacionalidad", value: nacionalidad || "N/A" },
+          { label: "Carreras Disputadas", value: totalCarreras },
+          { label: "Victorias", value: victorias },
+          { label: "Podios", value: podios },
+          { label: "Total de Puntos", value: totalPuntos },
+          { label: "Posición Media", value: posMedia },
+          { label: "Pilotos ese año", value: Array.from(pilotos).join(", ") },
+        ];
+
+        stats.forEach(stat => {
+          const block = document.createElement('div');
+          block.classList.add('info-block');
+          block.innerHTML = `
+            <span class="label">${stat.label}:</span>
+            <span class="value">${stat.value}</span>
+          `;
+          container.appendChild(block);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        container.innerHTML = '<p>Error al cargar las estadísticas de la escudería.</p>';
+      });
+
+    document.getElementById("btn-volver").addEventListener("click", e => {
+      e.preventDefault();
+      window.history.back();
+    });
+  </script>
+</body>
+</html>
+
+
