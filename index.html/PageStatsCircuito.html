@@ -12,17 +12,57 @@
       min-height: 100vh;
       margin: 0;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     h1 {
       color: #e10600;
       text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
-    h2 {
-      margin-top: 20px;
-      font-size: 1.5rem;
+    .main-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1200px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    #block-info{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1200px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .foto-block {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #e10600;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+      width: 400px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      flex-shrink: 0;
+    }
+
+    .foto-block img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .foto-block .label {
+      font-size: 1rem;
+      font-weight: bold;
       color: #ff4b4b;
     }
 
@@ -31,8 +71,8 @@
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-      max-width: 800px;
-      margin: auto;
+      flex: 1;
+      min-width: 300px;
     }
 
     table {
@@ -81,23 +121,43 @@
 </head>
 <body>
 
-  <div class="stats-container">
-    <h1 id="titulo"></h1>
-    <div id="info-adicional"></div>
-    <div id="vuelta-rapida"></div>
-    <table id="tabla-resultados">
-      <thead>
-        <tr>
-          <th>Posición</th>
-          <th>Piloto</th>
-          <th>Escudería</th>
-          <th>Vueltas</th>
-          <th>Tiempo Final</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <a href="#" id="btn-volver" class="back-button">← Volver a Circuitos</a>
+  <h1 id="titulo"></h1>
+  <div class="main-container">
+    <!-- Bloque de la foto -->
+    
+    
+    <div class="stats-container">
+      <div id="block-info">
+        <div>
+          <div id="info-adicional"></div>
+          <div id="vuelta-rapida"></div>
+        </div>
+        
+    </div>
+      
+      
+      
+      <table id="tabla-resultados">
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Piloto</th>
+            <th>Escudería</th>
+            <th>Vueltas</th>
+            <th>Tiempo Final</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <a href="#" id="btn-volver" class="back-button">← Volver a Circuitos</a>
+    </div>
+      <div class="foto-block">
+      <span class="label">Foto del Circuito:</span>
+      <div class="img-wrapper">
+        <img id="circuito-foto" src="" alt="Foto del circuito">
+    </div>
+</div>
+
   </div>
 
   <script>
@@ -111,7 +171,29 @@
     const tbody = document.querySelector("#tabla-resultados tbody");
     const infoAdicional = document.getElementById("info-adicional");
     const vueltaRapidaDiv = document.getElementById("vuelta-rapida");
+    const circuitoFotoElem = document.getElementById("circuito-foto");
 
+    // 1. Buscar imagen en Wikipedia
+    const wikiTitle = circuito.replace(/ /g, '_');
+    fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages|pageprops&titles=${wikiTitle}&piprop=original`)
+      .then(res => res.json())
+      .then(wikiData => {
+        const pages = wikiData.query.pages;
+        const pageId = Object.keys(pages)[0];
+        const page = pages[pageId];
+        const imageUrl = page.original ? page.original.source : '';
+        if (imageUrl) {
+          circuitoFotoElem.src = imageUrl;
+        } else {
+          circuitoFotoElem.src = '/images/default-circuit.jpg';
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        circuitoFotoElem.src = '/images/default-circuit.jpg';
+      });
+
+    // 2. Datos de la carrera
     fetch(`https://ergast.com/api/f1/${year}.json`)
       .then(response => response.json())
       .then(data => {
@@ -141,7 +223,6 @@
           return;
         }
 
-        // Mostrar tabla de resultados
         results.forEach(result => {
           const row = document.createElement("tr");
           row.innerHTML = `
@@ -154,7 +235,7 @@
           tbody.appendChild(row);
         });
 
-        // Mostrar vuelta rápida
+        // Vuelta rápida
         let fastestLap = null;
         results.forEach(result => {
           if (result.FastestLap && result.FastestLap.rank === "1") {
@@ -172,7 +253,6 @@
             <p><span class="highlight">Vuelta rápida:</span> No disponible en la API para este año.</p>
           `;
         }
-
       })
       .catch(error => {
         console.error(error);
@@ -181,10 +261,8 @@
 
     document.getElementById("btn-volver").addEventListener("click", function (e) {
       e.preventDefault();
-      window.history.back();//Para volver a la página anterior
+      window.history.back();
     });
   </script>
-
 </body>
 </html>
-

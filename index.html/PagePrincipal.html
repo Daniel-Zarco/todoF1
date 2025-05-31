@@ -280,104 +280,121 @@
     </head>
 
     <body>
-        <div class="logout-container">
-            <form action="/logout" method="POST">
-                <!-- Asegúrate de proteger con CSRF si usas Laravel -->
-                <button type="submit" class="logout-btn">Cerrar sesión</button>
-            </form>
-        </div>
+    <div class="logout-container">
+      <form id="logoutForm" action="/logout" method="POST">
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+      </form>
+    </div>
 
-        <header>
-            <span id="title">Todo F1</span>
-            <p>Gestiona tu mundo de Fórmula 1</p>
-            <div id="anioInput">
-                <section
-                    class="year-selector"
-                    style="text-align: center; margin-top: 20px"
-                >
-                    <label
-                        for="anio"
-                        style="font-size: 1.1em; margin-right: 10px"
-                        >Selecciona un año:</label
-                    >
-                    <select
-                        id="anio"
-                        name="anio"
-                        style="
-                            padding: 8px 12px;
-                            border-radius: 8px;
-                            font-size: 1em;
-                        "
-                    >
-                        <option value="" disabled selected>Elige un año</option>
-                    </select>
-                </section>
-            </div>
-        </header>
+    <header>
+      <span id="title">Todo F1</span>
+      <p>Gestiona tu mundo de Fórmula 1</p>
+      <div id="anioInput">
+        <section
+          class="year-selector"
+          style="text-align: center; margin-top: 20px"
+        >
+          <label
+            for="anio"
+            style="font-size: 1.1em; margin-right: 10px"
+            >Selecciona un año:</label
+          >
+          <select
+            id="anio"
+            name="anio"
+            style="padding: 8px 12px; border-radius: 8px; font-size: 1em"
+          >
+            <option value="" disabled selected>Elige un año</option>
+          </select>
+        </section>
+      </div>
+    </header>
 
-        <main class="container">
-            <div class="card">
-                <h2>Pilotos</h2>
-                <p>
-                    Consulta y gestiona información de todos los pilotos de F1.
-                </p>
-                <a href="#" onclick="redirigirConAño('Pilotos')">Ver Pilotos</a>
-            </div>
-            <div class="card">
-                <h2>Escuderías</h2>
-                <p>Conoce las escuderías históricas y actuales.</p>
-                <a href="#" onclick="redirigirConAño('Escuderia')"
-                    >Ver Escuderías</a
-                >
-            </div>
-            <div class="card">
-                <h2>Circuitos</h2>
-                <p>Explora los circuitos más emblemáticos del campeonato.</p>
-                <a href="#" onclick="redirigirConAño('Circuitos')"
-                    >Ver Circuitos</a
-                >
-            </div>
-        </main>
-    </body>
+    <main class="container">
+      <div class="card">
+        <h2>Pilotos</h2>
+        <p>Consulta y gestiona información de todos los pilotos de F1.</p>
+        <a href="#" onclick="redirigirConAño('Pilotos')">Ver Pilotos</a>
+      </div>
+      <div class="card">
+        <h2>Escuderías</h2>
+        <p>Conoce las escuderías históricas y actuales.</p>
+        <a href="#" onclick="redirigirConAño('Escuderia')"
+          >Ver Escuderías</a
+        >
+      </div>
+      <div class="card">
+        <h2>Circuitos</h2>
+        <p>Explora los circuitos más emblemáticos del campeonato.</p>
+        <a href="#" onclick="redirigirConAño('Circuitos')">Ver Circuitos</a>
+      </div>
+    </main>
 
     <script>
-        // Rellenar dinámicamente los años del 1950 al 2024
-        const select = document.getElementById("anio");
-        for (let y = 1950; y <= 2024; y++) {
-            const opt = document.createElement("option");
-            opt.value = y;
-            opt.textContent = y;
-            select.appendChild(opt);
+      // Rellenar dinámicamente los años del 1950 al 2024
+      const select = document.getElementById("anio");
+      for (let y = 1950; y <= 2024; y++) {
+        const opt = document.createElement("option");
+        opt.value = y;
+        opt.textContent = y;
+        select.appendChild(opt);
+      }
+
+      // Leer el año de la URL (si viene) y marcarlo como seleccionado
+      const params = new URLSearchParams(window.location.search);
+      const year = params.get("year");
+      if (year) {
+        select.value = year;
+      }
+
+      // Capturar cambio de selección
+      select.addEventListener("change", function () {
+        console.log("Año seleccionado:", this.value);
+      });
+
+      // Función para redirigir a distintas páginas con el año seleccionado
+      function redirigirConAño(tipo) {
+        const año = document.getElementById("anio").value;
+        if (!año) {
+          alert("Por favor selecciona un año.");
+          return;
         }
 
-        // Leer el año de la URL (si viene) y marcarlo como seleccionado
-        const params = new URLSearchParams(window.location.search);
-        const year = params.get("year");
-        if (year) {
-            select.value = year;
-        }
+        const rutas = {
+          Pilotos: `/TodoF1/todoF1/index.html/PagePilotos.html?year=${año}`,
+          Escuderia: `/TodoF1/todoF1/index.html/PageEscuderias.html?year=${año}`,
+          Circuitos: `/TodoF1/todoF1/index.html/PageCircuitos.html?year=${año}`,
+        };
 
-        // Capturar cambio de selección
-        select.addEventListener("change", function () {
-            console.log("Año seleccionado:", this.value);
-            // Aquí podrías guardar en localStorage o activar filtros
+        window.location.href = rutas[tipo] || "/";
+      }
+
+      // Script para el logout
+      document
+        .getElementById("logoutForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          fetch("/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+          })
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/TodoF1/todoF1/index.html";
+              } else {
+                alert("Error al cerrar sesión.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error cerrando sesión:", error);
+              alert("Error al cerrar sesión. Inténtalo de nuevo.");
+            });
         });
-
-        // Función para redirigir a distintas páginas con el año seleccionado
-        function redirigirConAño(tipo) {
-            const año = document.getElementById("anio").value;
-            if (!año) {
-                alert("Por favor selecciona un año.");
-                return;
-            }
-
-            const rutas = {
-                Pilotos: `/TodoF1/todoF1/index.html/PagePilotos.html?year=${año}`,
-                Escuderia: `/TodoF1/todoF1/index.html/PageEscuderias.html?year=${año}`,
-                Circuitos: `/TodoF1/todoF1/index.html/PageCircuitos.html?year=${año}`,
-            };
-
-            window.location.href = rutas[tipo] || "/";
-        }
+    </script>
+  </body>
+        
     </script>
 </html>
