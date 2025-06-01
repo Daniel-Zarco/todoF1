@@ -10,56 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 
-/*28/05/25*/
+/*01/06/25*/
 
-Route::post('/registro', function (Request $request) {
-    $data = $request->json()->all();
-
-    // Validar campos mínimos
-    if (!$data['nombre_usuario'] || !$data['gmail'] || !$data['password']) {
-        return response()->json(['message' => 'Datos incompletos.'], 422);
-    }
-
-    // Comprobar si ya existe ese usuario o correo
-    if (Usuario::where('nombre_usuario', $data['nombre_usuario'])->exists()) {
-        return response()->json(['message' => 'Nombre de usuario ya registrado.'], 409);
-    }
-
-    if (Usuario::where('gmail', $data['gmail'])->exists()) {
-        return response()->json(['message' => 'Correo ya registrado.'], 409);
-    }
-
-    // Crear usuario
-    Usuario::create([
-        'nombre_usuario' => $data['nombre_usuario'],
-        'gmail' => $data['gmail'],
-        'contraseña' => Hash::make($data['password']),
-    ]);
-
-    return response()->json(['success' => true], 201);
-});
-
-
-
-/*27/05/25 */
-
-Route::post('/login', function (Request $request) {
-    $data = $request->json()->all();
-
-    $usuario = Usuario::where('nombre_usuario', $data['usuario'])->first();
-
-    if ($usuario && Hash::check($data['password'], $usuario->contraseña)) {
-        Auth::login($usuario);
-        return response()->json(['success' => true]);
-    }
-
-    return response()->json(['message' => 'Credenciales inválidas'], 401);
-});
-
-
-
-/*22/05/25*/
+use App\Http\Controllers\AuthController;
 use App\Services\F1ApiService;
+
+Route::post('/registro', [AuthController::class, 'registro']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/importar-pilotos', function (F1ApiService $api) {
     $datos = $api->getCarrerasPorTemporada(2023); // puedes cambiar el año
