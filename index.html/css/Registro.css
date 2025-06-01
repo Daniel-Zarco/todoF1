@@ -1,155 +1,154 @@
+/* Fondo y cuerpo */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-    /* Fondo y cuerpo */
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+/* Video de fondo */
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.3);
+}
 
-    /* Video de fondo */
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(0.3);
-    }
+/* Caja del registro */
+.register-box {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.2);
+  width: 350px;
+  text-align: center;
+  animation: entrada 1s ease forwards;
+  border: 3px solid rgba(255, 0, 0, 0.3);
+}
 
-    /* Caja del registro */
-    .register-box {
-      background: rgba(0, 0, 0, 0.75);
-      padding: 40px 35px;
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.2);
-      width: 350px;
-      text-align: center;
-      animation: entrada 1s ease forwards;
-      border: 3px solid rgba(255, 0, 0, 0.3);
-    }
+@keyframes entrada {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
 
-    @keyframes entrada {
-      0% {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    /* Título */
-    .register-box h2 {
-      margin-bottom: 20px;
-      font-size: 2rem;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-      letter-spacing: 1px;
-    }
+/* Título */
+.register-box h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  letter-spacing: 1px;
+}
 
-    /* Inputs */
-    input {
-      width: 92%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #444;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: #1c1c1c;
-      color: white;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
+/* Inputs */
+input {
+  width: 92%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #1c1c1c;
+  color: white;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-    input:focus {
-      border-color: #e10600;
-      box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
-      outline: none;
-    }
+input:focus {
+  border-color: #e10600;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+  outline: none;
+}
 
-    /* Botón principal */
-    .btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      background: linear-gradient(to right, #e10600, #9a0000);
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      letter-spacing: 0.5px;
-    }
+/* Botón principal */
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: linear-gradient(to right, #e10600, #9a0000);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  letter-spacing: 0.5px;
+}
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-    }
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
 
-    /* Mensajes de estado */
-    #error {
-      color: #ff4b4b;
-      margin-top: 10px;
-    }
+/* Mensajes de estado */
+#error {
+  color: #ff4b4b;
+  margin-top: 10px;
+}
 
-    #success {
-      color: lightgreen;
-      margin-top: 10px;
-    }
+#success {
+  color: lightgreen;
+  margin-top: 10px;
+}
 
-    /* Botón de regreso */
-    .back-button {
-      position: fixed;
-      top: 100px;
-      left: 100px;
-      z-index: 1000;
-      width: 150px;
-      background: #000;
-      color: #fff;
-      border: 2px solid #e10600;
-      padding: 10px 20px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      font-family: 'Urbanist', sans-serif;
-      text-transform: uppercase;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-      overflow: hidden;
-    }
+/* Botón de regreso */
+.back-button {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  z-index: 1000;
+  width: 150px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #e10600;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: 'Urbanist', sans-serif;
+  text-transform: uppercase;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+  overflow: hidden;
+}
 
-    .back-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-      transform: skewX(-20deg);
-      transition: left 0.5s ease;
-    }
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
 
-    .back-button:hover::before {
-      left: 100%;
-    }
+.back-button:hover::before {
+  left: 100%;
+}
 
-    .back-button:hover {
-      background-color: #e10600;
-      color: white;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-    }
-  
+.back-button:hover {
+  background-color: #e10600;
+  color: white;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+}

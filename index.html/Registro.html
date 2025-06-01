@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <title>Registro de Usuario</title>
+
   <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro</title>
-  <link rel="stylesheet" href="css/Registro.css">
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+    <link rel="stylesheet" href="css/Registro.css">
+  </head>
 
 <body>
   <!-- VIDEO de fondo -->
@@ -37,56 +39,58 @@
   </div>
 
   <script>
-  document.getElementById('background-video').playbackRate = 0.5; // ralentiza el video
+    document.getElementById('background-video').playbackRate = 0.5; // ralentiza el video
 
-  document.getElementById('registroForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
+    document.getElementById('registroForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-    const nombre_usuario = document.getElementById('usuario').value;
-    const gmail = document.getElementById('gmail').value;
-    const password = document.getElementById('password').value;
-    const confirm = document.getElementById('confirm').value;
+      const nombre_usuario = document.getElementById('usuario').value;
+      const gmail = document.getElementById('gmail').value;
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
 
-    const error = document.getElementById('error');
-    const success = document.getElementById('success');
-    error.textContent = '';
-    success.textContent = '';
+      const error = document.getElementById('error');
+      const success = document.getElementById('success');
+      error.textContent = '';
+      success.textContent = '';
 
-    if (password !== confirm) {
-      error.textContent = 'Las contraseñas no coinciden.';
-      return;
-    }
+      if (password !== confirm) {
+        error.textContent = 'Las contraseñas no coinciden.';
+        return;
+      }
 
-    const csrf = document.cookie.split('; ')
-      .find(row => row.startsWith('XSRF-TOKEN'))
-      ?.split('=')[1];
+      const csrf = document.cookie.split('; ')
+        .find(row => row.startsWith('XSRF-TOKEN'))
+        ?.split('=')[1];
 
-    const response = await fetch('/registro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': decodeURIComponent(csrf || '')
-      },
-      body: JSON.stringify({
-        nombre_usuario,
-        gmail,
-        password
-      })
+      const response = await fetch('/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': decodeURIComponent(csrf || '')
+        },
+        body: JSON.stringify({
+          nombre_usuario,
+          gmail,
+          password
+        })
+      });
+
+      if (response.ok) {
+        success.textContent = '¡Usuario registrado con éxito! Redirigiendo...';
+
+        // Esperar 3 segundos antes de redirigir
+        setTimeout(() => {
+          window.location.href = '/TodoF1/todoF1/index.html/PagePrincipal.html';
+        }, 3000);
+      } else {
+        const data = await response.json();
+        error.textContent = data.message || 'Error al registrar usuario.';
+      }
     });
-
-    if (response.ok) {
-      success.textContent = '¡Usuario registrado con éxito! Redirigiendo...';
-
-      // Esperar 3 segundos antes de redirigir
-      setTimeout(() => {        window.location.href = '/TodoF1/todoF1/index.html/PagePrincipal.html';
-      }, 3000);
-    } else {
-      const data = await response.json();
-      error.textContent = data.message || 'Error al registrar usuario.';
-    }
-  });
-</script>
+  </script>
 
 
 </body>
+
 </html>

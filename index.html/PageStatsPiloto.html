@@ -19,13 +19,19 @@
 
   <div class="grid-container">
     <div class="info-block"><span class="label">Edad:</span><span class="value" id="edad">Cargando...</span></div>
-    <div class="info-block"><span class="label">Nacionalidad:</span><span class="value" id="nacionalidad">Cargando...</span></div>
-    <div class="info-block"><span class="label">Inicio en F1:</span><span class="value" id="inicio">Cargando...</span></div>
-    <div class="info-block"><span class="label">Escuderías:</span><span class="value" id="escuderias">Cargando...</span></div>
-    <div class="info-block"><span class="label">Carreras ganadas:</span><span class="value" id="victorias">Cargando...</span></div>
+    <div class="info-block"><span class="label">Nacionalidad:</span><span class="value"
+        id="nacionalidad">Cargando...</span></div>
+    <div class="info-block"><span class="label">Inicio en F1:</span><span class="value" id="inicio">Cargando...</span>
+    </div>
+    <div class="info-block"><span class="label">Escuderías:</span><span class="value" id="escuderias">Cargando...</span>
+    </div>
+    <div class="info-block"><span class="label">Carreras ganadas:</span><span class="value"
+        id="victorias">Cargando...</span></div>
     <div class="info-block"><span class="label">Podios:</span><span class="value" id="podios">Cargando...</span></div>
-    <div class="info-block"><span class="label">Mejor resultado:</span><span class="value" id="mejor-resultado">Cargando...</span></div>
-    <div class="info-block"><span class="label">Temporadas:</span><span class="value" id="temporadas">Cargando...</span></div>
+    <div class="info-block"><span class="label">Mejor resultado:</span><span class="value"
+        id="mejor-resultado">Cargando...</span></div>
+    <div class="info-block"><span class="label">Temporadas:</span><span class="value" id="temporadas">Cargando...</span>
+    </div>
     <div class="info-block wiki-block">
       <span class="label">Wikipedia:</span>
       <a id="wiki" href="#" target="_blank" class="value" style="color:#fff; text-decoration:underline;">Ver más</a>
@@ -100,28 +106,28 @@
                 const qid = page.pageprops && page.pageprops.wikibase_item;
                 if (qid) {
                   // Fetch a Wikidata para la fecha de fallecimiento
-                fetch(`https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${qid}&property=P570&format=json&origin=*`)
-                  .then(res => res.json())
-                  .then(wikidata => {
-                    const claims = wikidata.claims && wikidata.claims.P570;
-                    if (claims && claims.length > 0) {
-                      // Fallecido
-                      const deathTimeRaw = claims[0].mainsnak.datavalue.value.time;
-                      const deathTimeClean = deathTimeRaw.replace('+', ''); // Quitar '+'
-                      const deathDate = new Date(deathTimeClean);
-                      const ageAtDeath = deathDate.getFullYear() - birthDate.getFullYear();
-                      edadElem.textContent = `Fallecido a los ${ageAtDeath} años`;
-                    } else {
-                      // Vivo
-                      const today = new Date();
-                      let age = today.getFullYear() - birthDate.getFullYear();
-                      if (today.getMonth() < birthDate.getMonth() ||
+                  fetch(`https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${qid}&property=P570&format=json&origin=*`)
+                    .then(res => res.json())
+                    .then(wikidata => {
+                      const claims = wikidata.claims && wikidata.claims.P570;
+                      if (claims && claims.length > 0) {
+                        // Fallecido
+                        const deathTimeRaw = claims[0].mainsnak.datavalue.value.time;
+                        const deathTimeClean = deathTimeRaw.replace('+', ''); // Quitar '+'
+                        const deathDate = new Date(deathTimeClean);
+                        const ageAtDeath = deathDate.getFullYear() - birthDate.getFullYear();
+                        edadElem.textContent = `Fallecido a los ${ageAtDeath} años`;
+                      } else {
+                        // Vivo
+                        const today = new Date();
+                        let age = today.getFullYear() - birthDate.getFullYear();
+                        if (today.getMonth() < birthDate.getMonth() ||
                           (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-                        age--;
+                          age--;
+                        }
+                        edadElem.textContent = `${age} años`;
                       }
-                      edadElem.textContent = `${age} años`;
-                    }
-                  });
+                    });
                 } else {
                   // Si no hay Q-ID, asumimos vivo
                   const today = new Date();
@@ -182,6 +188,5 @@
     });
   </script>
 </body>
+
 </html>
-
-
