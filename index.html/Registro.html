@@ -4,13 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Registro de Usuario</title>
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro</title>
-    <link rel="stylesheet" href="css/Registro.css">
-  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/Registro.css">
+</head>
 
 <body>
   <!-- VIDEO de fondo -->
@@ -43,6 +39,7 @@
 
     document.getElementById('registroForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+      console.log("Formulario enviado");
 
       const nombre_usuario = document.getElementById('usuario').value;
       const gmail = document.getElementById('gmail').value;
@@ -63,11 +60,10 @@
         .find(row => row.startsWith('XSRF-TOKEN'))
         ?.split('=')[1];
 
-      const response = await fetch('/registro', {
+      const response = await fetch('/TodoF1/public/registro', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'X-XSRF-TOKEN': decodeURIComponent(csrf || '')
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           nombre_usuario,
