@@ -23,7 +23,7 @@
     const params = new URLSearchParams(window.location.search);
     const year = params.get("year");
 
-    fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
+    fetch(`https://ergast.com/api/f1/${2021}/results.json?limit=1000`)
       .then(response => response.json())
       .then(data => {
         const races = data.MRData.RaceTable.Races;
@@ -45,7 +45,12 @@
 
         const container = document.getElementById('pilotos-container');
 
-        pilotosUnicos.forEach(piloto => {
+        // Ordenamos los pilotos alfabéticamente
+        const pilotosOrdenados = Array.from(pilotosUnicos.values())
+          .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }));
+
+        // Generamos las tarjetas
+        pilotosOrdenados.forEach(piloto => {
           const card = document.createElement('div');
           card.classList.add('card');
           card.innerHTML = `

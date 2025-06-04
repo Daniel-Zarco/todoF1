@@ -12,14 +12,45 @@
 <body>
     <div class="container">
         <h1>Bienvenido a:<span id="title">&nbsp TodoF1</span></h1>
-        <p>
-            La aplicación donde podrás consultar todos los<br />
-            datos de la F1 desde el inicio de los tiempos.
-        </p>
+        <p>La aplicación donde podrás consultar todos los<br> datos de la F1 desde el inicio de los tiempos.</p>
         <div id="InitSes">
-            <a href="/TodoF1/todoF1/index.html/InitSes.html" class="btn">Iniciar Sesión</a>
+            <a href="/TodoF1/todoF1/InitSes.html" class="btn">Iniciar Sesión</a>
+        </div>
+
+        <!-- Bloque de acordeones -->
+        <div class="accordion-container">
+            <div class="accordion">¿Qué puedo hacer en TodoF1?</div>
+            <div class="accordion-content">
+                <p>Puedes consultar datos detallados sobre pilotos, escuderías y circuitos de todas las temporadas de F1 desde 1950 hasta la actualidad. También podrás comparar estadísticas y acceder a información histórica clave.</p>
+            </div>
+
+            <div class="accordion">¿Cómo funciona el ranking de pilotos y escuderías?</div>
+            <div class="accordion-content">
+                <p>En la página principal, selecciona un año y podrás ver el ranking Top 3 de pilotos y escuderías según sus puntos acumulados. ¡Perfecto para analizar el rendimiento de tus favoritos!</p>
+            </div>
+
+            <div class="accordion">¿Es necesario registrarse?</div>
+            <div class="accordion-content">
+                <p>Sí, para acceder a todas las funcionalidades (como estadísticas detalladas) es necesario crear una cuenta. ¡No te preocupes! El registro es fácil y gratuito.</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(acc => {
+            acc.addEventListener('click', () => {
+                const content = acc.nextElementSibling;
+                const isActive = content.style.display === 'block';
+                // Cierra todos
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
+                // Activa el clicado si estaba cerrado
+                if (!isActive) {
+                    content.style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
