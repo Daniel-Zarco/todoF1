@@ -2,13 +2,85 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Todo F1 - Inicio</title>
-  <link rel="stylesheet" href="css/PagePrincipal.css">
+    <meta charset="UTF-8" />
+    <title>Página Principal</title>
+    <link rel="stylesheet" href="css/PagePrincipal.css">
+    <style>
+    .ranking-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 10px auto;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid #e10600;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .ranking-container h2 {
+        font-size: 1.8rem;
+        color: #ff4b4b;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+    }
+
+    .ranking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .ranking-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .ranking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    }
+
+    .ranking-card h3 {
+        font-size: 1.4rem;
+        color: #ffffff;
+        margin-bottom: 10px;
+        text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+    }
+
+    .ranking-card ol {
+        list-style: decimal inside;
+        color: #ddd;
+        padding-left: 0;
+    }
+
+    .ranking-card li {
+        margin: 6px 0;
+        font-size: 1rem;
+        color: #ccc;
+    }
+
+    .ranking-card li span {
+        color: #ff4b4b;
+        font-weight: bold;
+    }
+
+    #ranking-lists {
+        display: none;
+    }
+    </style>
 </head>
 
 <body>
-  <div class="logout-container">
+    <div class="logout-container">
         <form id="logoutForm" action="/logout" method="POST">
             <button type="submit" class="logout-btn">Cerrar sesión</button>
         </form>
@@ -66,7 +138,7 @@
 
     <script>
         const select = document.getElementById("anio");
-        for (let y = 1950; y <= 2024; y++) {
+        for (let y = 1950; y <= 2025; y++) {
             const opt = document.createElement("option");
             opt.value = y;
             opt.textContent = y;
@@ -110,42 +182,43 @@
         }
 
         async function fetchTop3(year) {
-            const pilotosList = document.getElementById("top3-pilotos");
-            const escuderiasList = document.getElementById("top3-escuderias");
+    const pilotosList = document.getElementById("top3-pilotos");
+    const escuderiasList = document.getElementById("top3-escuderias");
 
-            pilotosList.innerHTML = "<li>Cargando...</li>";
-            escuderiasList.innerHTML = "<li>Cargando...</li>";
+    pilotosList.innerHTML = "<li>Cargando...</li>";
+    escuderiasList.innerHTML = "<li>Cargando...</li>";
 
-            try {
-                const response = await fetch(`https://ergast.com/api/f1/${year}/driverStandings.json`);
-                const data = await response.json();
-                const drivers = data.MRData.StandingsTable.StandingsLists[0]?.DriverStandings || [];
-                pilotosList.innerHTML = "";
-                drivers.slice(0, 3).forEach(driver => {
-                    const name = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
-                    const points = driver.points;
-                    const li = document.createElement("li");
-                    li.innerHTML = `<span>${name}</span> - ${points} puntos`;
-                    pilotosList.appendChild(li);
-                });
+    try {
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/${year}/driverStandings.json`);
+        const data = await response.json();
+        const drivers = data.MRData.StandingsTable.StandingsLists[0]?.DriverStandings || [];
+        pilotosList.innerHTML = "";
+        drivers.slice(0, 3).forEach(driver => {
+            const name = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
+            const points = driver.points;
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${name}</span> - ${points} puntos`;
+            pilotosList.appendChild(li);
+        });
 
-                const responseConstructors = await fetch(`https://ergast.com/api/f1/${year}/constructorStandings.json`);
-                const dataConstructors = await responseConstructors.json();
-                const constructors = dataConstructors.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings || [];
-                escuderiasList.innerHTML = "";
-                constructors.slice(0, 3).forEach(team => {
-                    const name = team.Constructor.name;
-                    const points = team.points;
-                    const li = document.createElement("li");
-                    li.innerHTML = `<span>${name}</span> - ${points} puntos`;
-                    escuderiasList.appendChild(li);
-                });
-            } catch (error) {
-                console.error("Error al cargar el Top 3:", error);
-                pilotosList.innerHTML = "<li>Error al cargar datos.</li>";
-                escuderiasList.innerHTML = "<li>Error al cargar datos.</li>";
-            }
-        }
+        const responseConstructors = await fetch(`https://api.jolpi.ca/ergast/f1/${year}/constructorStandings.json`);
+        const dataConstructors = await responseConstructors.json();
+        const constructors = dataConstructors.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings || [];
+        escuderiasList.innerHTML = "";
+        constructors.slice(0, 3).forEach(team => {
+            const name = team.Constructor.name;
+            const points = team.points;
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${name}</span> - ${points} puntos`;
+            escuderiasList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error al cargar el Top 3:", error);
+        pilotosList.innerHTML = "<li>Error al cargar datos.</li>";
+        escuderiasList.innerHTML = "<li>Error al cargar datos.</li>";
+    }
+}
+
 
         document.getElementById("logoutForm").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -168,7 +241,5 @@
         });
     </script>
 </body>
-
-</script>
 
 </html>

@@ -21,9 +21,9 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const year = params.get("year");
+    const year = params.get("year") || 2025;
 
-    fetch(`https://ergast.com/api/f1/${2021}/results.json?limit=1000`)
+    fetch(`https://api.jolpi.ca/ergast/f1/${year}/results.json?limit=1000`)
       .then(response => response.json())
       .then(data => {
         const races = data.MRData.RaceTable.Races;

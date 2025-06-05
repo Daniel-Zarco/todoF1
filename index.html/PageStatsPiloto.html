@@ -19,19 +19,13 @@
 
   <div class="grid-container">
     <div class="info-block"><span class="label">Edad:</span><span class="value" id="edad">Cargando...</span></div>
-    <div class="info-block"><span class="label">Nacionalidad:</span><span class="value"
-        id="nacionalidad">Cargando...</span></div>
-    <div class="info-block"><span class="label">Inicio en F1:</span><span class="value" id="inicio">Cargando...</span>
-    </div>
-    <div class="info-block"><span class="label">Escuderías:</span><span class="value" id="escuderias">Cargando...</span>
-    </div>
-    <div class="info-block"><span class="label">Carreras ganadas:</span><span class="value"
-        id="victorias">Cargando...</span></div>
+    <div class="info-block"><span class="label">Nacionalidad:</span><span class="value" id="nacionalidad">Cargando...</span></div>
+    <div class="info-block"><span class="label">Inicio en F1:</span><span class="value" id="inicio">Cargando...</span></div>
+    <div class="info-block"><span class="label">Escuderías:</span><span class="value" id="escuderias">Cargando...</span></div>
+    <div class="info-block"><span class="label">Carreras ganadas:</span><span class="value" id="victorias">Cargando...</span></div>
     <div class="info-block"><span class="label">Podios:</span><span class="value" id="podios">Cargando...</span></div>
-    <div class="info-block"><span class="label">Mejor resultado:</span><span class="value"
-        id="mejor-resultado">Cargando...</span></div>
-    <div class="info-block"><span class="label">Temporadas:</span><span class="value" id="temporadas">Cargando...</span>
-    </div>
+    <div class="info-block"><span class="label">Mejor resultado:</span><span class="value" id="mejor-resultado">Cargando...</span></div>
+    <div class="info-block"><span class="label">Temporadas:</span><span class="value" id="temporadas">Cargando...</span></div>
     <div class="info-block wiki-block">
       <span class="label">Wikipedia:</span>
       <a id="wiki" href="#" target="_blank" class="value" style="color:#fff; text-decoration:underline;">Ver más</a>
@@ -60,7 +54,7 @@
 
     let pilotoId = "";
 
-    fetch(`https://ergast.com/api/f1/${year}/results.json?limit=1000`)
+    fetch(`https://api.jolpi.ca/ergast/f1/${year}/results.json?limit=1000`)
       .then(response => response.json())
       .then(data => {
         const races = data.MRData.RaceTable.Races;
@@ -79,7 +73,8 @@
           return;
         }
 
-        fetch(`https://ergast.com/api/f1/drivers/${pilotoId}.json`)
+        // Datos del piloto
+        fetch(`https://api.jolpi.ca/ergast/f1/drivers/${pilotoId}.json`)
           .then(res => res.json())
           .then(driverData => {
             const driver = driverData.MRData.DriverTable.Drivers[0];
@@ -95,88 +90,85 @@
                 const pages = wikiData.query.pages;
                 const pageId = Object.keys(pages)[0];
                 const page = pages[pageId];
-                const imageUrl = page.original ? page.original.source : '';
-                if (imageUrl) {
-                  pilotoFotoElem.src = imageUrl;
-                } else {
-                  pilotoFotoElem.src = '/images/default-pilot.jpg';
-                }
+                const imageUrl = page.original ? page.original.source : '/images/default-pilot.jpg';
+                pilotoFotoElem.src = imageUrl;
 
-                // Obtener Wikibase Q-ID
+                // Q-ID para Wikidata
                 const qid = page.pageprops && page.pageprops.wikibase_item;
                 if (qid) {
-                  // Fetch a Wikidata para la fecha de fallecimiento
                   fetch(`https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${qid}&property=P570&format=json&origin=*`)
                     .then(res => res.json())
                     .then(wikidata => {
                       const claims = wikidata.claims && wikidata.claims.P570;
                       if (claims && claims.length > 0) {
-                        // Fallecido
-                        const deathTimeRaw = claims[0].mainsnak.datavalue.value.time;
-                        const deathTimeClean = deathTimeRaw.replace('+', ''); // Quitar '+'
-                        const deathDate = new Date(deathTimeClean);
+                        const deathTime = claims[0].mainsnak.datavalue.value.time.replace('+', '');
+                        const deathDate = new Date(deathTime);
                         const ageAtDeath = deathDate.getFullYear() - birthDate.getFullYear();
                         edadElem.textContent = `Fallecido a los ${ageAtDeath} años`;
                       } else {
-                        // Vivo
                         const today = new Date();
                         let age = today.getFullYear() - birthDate.getFullYear();
                         if (today.getMonth() < birthDate.getMonth() ||
-                          (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
                           age--;
                         }
                         edadElem.textContent = `${age} años`;
                       }
                     });
                 } else {
-                  // Si no hay Q-ID, asumimos vivo
                   const today = new Date();
                   let age = today.getFullYear() - birthDate.getFullYear();
                   if (today.getMonth() < birthDate.getMonth() ||
-                    (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
                     age--;
                   }
                   edadElem.textContent = `${age} años`;
                 }
               });
-            fetch(`https://ergast.com/api/f1/drivers/${pilotoId}/seasons.json`)
-              .then(res => res.json())
-              .then(seasonsData => {
-                const seasons = seasonsData.MRData.SeasonTable.Seasons;
-                temporadasElem.textContent = seasons.length;
-                if (seasons.length > 0) {
-                  const primerAnio = Math.min(...seasons.map(s => parseInt(s.season)));
-                  inicioElem.textContent = primerAnio;
-                } else {
-                  inicioElem.textContent = 'N/A';
+          });
+
+        // Temporadas
+        fetch(`https://api.jolpi.ca/ergast/f1/drivers/${pilotoId}/seasons.json`)
+          .then(res => res.json())
+          .then(seasonsData => {
+            const seasons = seasonsData.MRData.SeasonTable.Seasons;
+            temporadasElem.textContent = seasons.length;
+            if (seasons.length > 0) {
+              const primerAnio = Math.min(...seasons.map(s => parseInt(s.season)));
+              inicioElem.textContent = primerAnio;
+            } else {
+              inicioElem.textContent = 'N/A';
+            }
+          });
+
+        // Estadísticas del piloto
+        fetch(`https://api.jolpi.ca/ergast/f1/drivers/${pilotoId}/results.json?limit=1000`)
+          .then(res => res.json())
+          .then(resultsData => {
+            const results = resultsData.MRData.RaceTable.Races;
+            let victorias = 0;
+            let podios = 0;
+            let mejorPos = 99;
+            const escuderias = new Set();
+
+            results.forEach(race => {
+              race.Results.forEach(result => {
+                if (result.Driver.driverId === pilotoId) {
+                  escuderias.add(result.Constructor.name);
+                  const pos = parseInt(result.position);
+                  if (pos === 1) victorias++;
+                  if (pos <= 3) podios++;
+                  if (pos < mejorPos) mejorPos = pos;
                 }
               });
+            });
 
-            fetch(`https://ergast.com/api/f1/drivers/${pilotoId}/results.json?limit=1000`)
-              .then(res => res.json())
-              .then(resultsData => {
-                const results = resultsData.MRData.RaceTable.Races;
-                let victorias = 0;
-                let podios = 0;
-                let mejorPos = 99;
-                const escuderias = new Set();
-
-                results.forEach(race => {
-                  race.Results.forEach(result => {
-                    escuderias.add(result.Constructor.name);
-                    const pos = parseInt(result.position);
-                    if (pos === 1) victorias++;
-                    if (pos <= 3) podios++;
-                    if (pos < mejorPos) mejorPos = pos;
-                  });
-                });
-
-                escuderiasElem.textContent = [...escuderias].join(", ");
-                victoriasElem.textContent = victorias;
-                podiosElem.textContent = podios;
-                mejorResultadoElem.textContent = mejorPos === 99 ? "N/A" : mejorPos;
-              });
+            escuderiasElem.textContent = [...escuderias].join(", ");
+            victoriasElem.textContent = victorias;
+            podiosElem.textContent = podios;
+            mejorResultadoElem.textContent = mejorPos === 99 ? "N/A" : mejorPos;
           });
+
       })
       .catch(error => {
         console.error(error);

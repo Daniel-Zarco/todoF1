@@ -22,38 +22,39 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const year = params.get("year");
+    const year = params.get("year") || 2025;
 
-    fetch(`https://ergast.com/api/f1/${year}.json`)
-      .then(response => response.json())
-      .then(data => {
-        const races = data.MRData.RaceTable.Races;
-        const container = document.getElementById('circuitos-container');
+    fetch(`https://api.jolpi.ca/ergast/f1/${year}.json`)
+  .then(response => response.json())
+  .then(data => {
+    const races = data.MRData.RaceTable.Races;
+    const container = document.getElementById('circuitos-container');
+    container.innerHTML = "";
 
-        races.forEach(race => {
-          const circuito = race.Circuit;
-          const card = document.createElement('div');
-          card.classList.add('card');
-          card.innerHTML = `
-            <h2>${circuito.circuitName}</h2>
-            <p><strong>País:</strong> ${circuito.Location.country}</p>
-            <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
-            <p><strong>Fecha:</strong> ${race.date}</p>
-          `;
+    races.forEach(race => {
+      const circuito = race.Circuit;
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
+        <h2>${circuito.circuitName}</h2>
+        <p><strong>País:</strong> ${circuito.Location.country}</p>
+        <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
+        <p><strong>Fecha:</strong> ${race.date}</p>
+      `;
 
-          // Al hacer clic en la tarjeta, redirige a PageStats con circuito y año
-          card.addEventListener('click', function () {
-            const circuitoParam = encodeURIComponent(circuito.circuitName);
-            window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
-          });
-
-          container.appendChild(card);
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        document.getElementById('circuitos-container').innerHTML = '<p>Error al cargar los circuitos.</p>';
+      card.addEventListener('click', () => {
+        const circuitoParam = encodeURIComponent(circuito.circuitName);
+        window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
       });
+
+      container.appendChild(card);
+    });
+  })
+  .catch(error => {
+    console.error(error);
+    document.getElementById('circuitos-container').innerHTML = '<p>Error al cargar los circuitos desde la API Jolpi.</p>';
+  });
+
 
     /*Boton retroceso*/
     document.getElementById('btn-volver').addEventListener('click', function () {
