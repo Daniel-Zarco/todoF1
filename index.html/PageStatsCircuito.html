@@ -102,7 +102,7 @@
 
         const results = data.MRData.RaceTable.Races[0]?.Results;
         if (!results || results.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5">No hay resultados disponibles para esta carrera.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="5">No hay resultados disponibles.</td></tr>`;
           return;
         }
 

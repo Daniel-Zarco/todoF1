@@ -107,8 +107,6 @@ p {
         left: 100%;
     }
 }
-
-/* Estilos para los acordeones */
 .accordion-container {
     position: fixed;  
     top: 65%;       

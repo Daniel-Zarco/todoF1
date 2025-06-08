@@ -3,32 +3,51 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Registrar un nuevo usuario.
-     */
-    public function registro(Request $request)
-{
-    // Validar
-    $validatedData = $request->validate([
-        'nombre_usuario' => 'required|string|max:255|unique:usuarios,nombre_usuario',
-        'gmail' => 'required|email|unique:usuarios,gmail',
-        'password' => 'required|string|min:4',
-    ]);
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+           'email' => ['required', 'email'],
+           'password' => ['required'],
+        ]);
 
-    // Crear el usuario
-    Usuario::create([
-        'nombre_usuario' => $validatedData['nombre_usuario'],
-        'gmail' => $validatedData['gmail'],
-        'contraseña' => bcrypt($validatedData['password']),
-    ]);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard'); // O donde quieras
+        }
 
-    // Devolver respuesta JSON de éxito
-    return response()->json(['message' => '¡Usuario registrado con éxito!'], 201);
+        return back()->withErrors([
+            'email' => 'Las credenciales no coinciden.',
+        ])->onlyInput('email');
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+           'name' => ['required', 'string', 'max:255'],
+           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+           'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::create([
+           'name' => $request->name,
+           'email' => $request->email,
+           'password' => Hash::make($request->password),
+        ]);
+
+        Auth::login($user);
+
+        return redirect('/dashboard'); // O donde quieras
+    }
 }
 
-}

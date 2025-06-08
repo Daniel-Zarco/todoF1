@@ -31,24 +31,42 @@
     const container = document.getElementById('circuitos-container');
     container.innerHTML = "";
 
+    const today = new Date(); // fecha actual real
+
     races.forEach(race => {
-      const circuito = race.Circuit;
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.innerHTML = `
-        <h2>${circuito.circuitName}</h2>
-        <p><strong>País:</strong> ${circuito.Location.country}</p>
-        <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
-        <p><strong>Fecha:</strong> ${race.date}</p>
-      `;
+    const circuito = race.Circuit;
+    const raceDate = new Date(race.date);
 
-      card.addEventListener('click', () => {
-        const circuitoParam = encodeURIComponent(circuito.circuitName);
-        window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
-      });
+    const card = document.createElement('div');
+    card.classList.add('card');
 
-      container.appendChild(card);
+    // Si la fecha de la carrera es mayor a hoy, aún no se corrió
+    if (raceDate > today) {
+      card.style.backgroundColor = '#555'; // fondo blanco
+      card.style.color = '#000'; // para que el texto sea legible con fondo blanco
+    }
+
+    card.innerHTML = `
+      <h2>${circuito.circuitName}</h2>
+      <p><strong>País:</strong> ${circuito.Location.country}</p>
+      <p><strong>Ciudad:</strong> ${circuito.Location.locality}</p>
+      <p><strong>Fecha:</strong> ${race.date}</p>
+    `;
+
+    card.addEventListener('click', () => {
+      const circuitoParam = encodeURIComponent(circuito.circuitName);
+      window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
     });
+
+    if (raceDate > today) {
+      card.classList.add('no-corrida');
+      card.innerHTML += `<div class="badge">Proximamente </div>`;
+    }
+
+
+    container.appendChild(card);
+  });
+
   })
   .catch(error => {
     console.error(error);

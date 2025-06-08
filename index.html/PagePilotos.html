@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <title>Pilotos F1</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PagePilotos.css">
 </head>
-
 <body>
   <header>
     <h1>Pilotos F1</h1>
   </header>
 
-  <button id="btn-volver" class="back-button">
-    ← Página principal
-  </button>
+  <button id="btn-volver" class="back-button">← Página principal</button>
 
   <div class="container" id="pilotos-container"></div>
 
@@ -44,12 +40,10 @@
         });
 
         const container = document.getElementById('pilotos-container');
+        const pilotosOrdenados = Array.from(pilotosUnicos.values()).sort(
+          (a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
+        );
 
-        // Ordenamos los pilotos alfabéticamente
-        const pilotosOrdenados = Array.from(pilotosUnicos.values())
-          .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }));
-
-        // Generamos las tarjetas
         pilotosOrdenados.forEach(piloto => {
           const card = document.createElement('div');
           card.classList.add('card');
@@ -58,12 +52,10 @@
             <p><strong>Nacionalidad:</strong> ${piloto.nacionalidad}</p>
             <p><strong>Fecha de nacimiento:</strong> ${piloto.fechaNacimiento}</p>
           `;
-
           card.addEventListener('click', () => {
             const pilotoParam = encodeURIComponent(piloto.nombre);
             window.location.href = `PageStatsPiloto.html?piloto=${pilotoParam}&year=${year}`;
           });
-
           container.appendChild(card);
         });
       })
@@ -79,5 +71,4 @@
     });
   </script>
 </body>
-
 </html>
