@@ -38,14 +38,6 @@
       <label for="country">País:</label>
       <select name="country" id="country" required>
         <option value="" disabled selected>Selecciona tu país</option>
-        <option value="Argentina">Argentina</option>
-        <option value="Brasil">Brasil</option>
-        <option value="Chile">Chile</option>
-        <option value="Colombia">Colombia</option>
-        <option value="España">España</option>
-        <option value="México">México</option>
-        <option value="Perú">Perú</option>
-        <option value="Estados Unidos">Estados Unidos</option>
       </select>
 
       <label for="age">Edad:</label>
@@ -57,5 +49,22 @@
     <p id="error" style="color: #ff3b3b;"></p>
   </div>
 </body>
+<script>
+  const paises = [
+    "Argentina", "Bolivia", "Chile", "Colombia", "Costa Rica", "Cuba",
+    "Ecuador", "El Salvador", "España", "Guatemala", "Honduras", "México",
+    "Nicaragua", "Panamá", "Paraguay", "Perú", "Puerto Rico",
+    "República Dominicana", "Uruguay", "Venezuela"
+  ];
+
+  const select = document.getElementById('country');
+
+  paises.forEach(pais => {
+    const option = document.createElement('option');
+    option.value = pais;
+    option.textContent = pais;
+    select.appendChild(option);
+  });
+</script>
 
 </html>
