@@ -1,0 +1,21 @@
+.navbar {
+    font-family: "Segoe UI", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 10px 70px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    position: fixed; /* Cambiado de sticky a fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+}
+
+
+.navbar-user {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+}

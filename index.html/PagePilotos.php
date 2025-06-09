@@ -5,8 +5,10 @@
   <title>Pilotos F1</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PagePilotos.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
+  <?php include '../api/navbar.php'; ?>
   <header>
     <h1>Pilotos F1</h1>
   </header>
@@ -54,7 +56,7 @@
           `;
           card.addEventListener('click', () => {
             const pilotoParam = encodeURIComponent(piloto.nombre);
-            window.location.href = `PageStatsPiloto.html?piloto=${pilotoParam}&year=${year}`;
+            window.location.href = `PageStatsPiloto.php?piloto=${pilotoParam}&year=${year}`;
           });
           container.appendChild(card);
         });
@@ -65,7 +67,7 @@
       });
 
     document.getElementById('btn-volver').addEventListener('click', function () {
-      let url = '/TodoF1/todoF1/index.html/PagePrincipal.html';
+      let url = '/TodoF1/todoF1/index.html/PagePrincipal.php';
       if (year) { url += `?year=${year}`; }
       window.location.href = url;
     });

@@ -6,9 +6,11 @@
   <title>Escuderías F1</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PageEscuderias.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
+  <?php include '../api/navbar.php'; ?>
   <header>
     <h1>Escuderías F1</h1>
   </header>
@@ -93,7 +95,7 @@
 
         // Evento click para redirigir
         card.addEventListener('click', () => {
-          window.location.href = `PageStatsEscuderia.html?escuderia=${encodeURIComponent(escuderia.nombre)}&year=${year}`;
+          window.location.href = `PageStatsEscuderia.php?escuderia=${encodeURIComponent(escuderia.nombre)}&year=${year}`;
         });
 
         container.appendChild(card);
@@ -109,7 +111,7 @@
     const params = new URLSearchParams(window.location.search);
     const year = params.get('year');
 
-    let url = '/TodoF1/todoF1/index.html/PagePrincipal.html';
+    let url = '/TodoF1/todoF1/index.html/PagePrincipal.php';
     if (year) { url += `?year=${year}`; }
     window.location.href = url;
   });

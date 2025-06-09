@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: /TodoF1/todof1/index.html/login.php");
+    exit();
+}
+// Aquí continúa el código para mostrar la página
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,7 +19,7 @@
 </head>
 <body>
 
-    <a href="../index.html/PagePrincipal.html" class="back-button">← Volver</a>
+    <a href="../index.html/PagePrincipal.php" class="back-button">← Volver</a>
 
     <h1>Datos Registrados</h1>
 

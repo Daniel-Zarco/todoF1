@@ -6,10 +6,11 @@
   <title>Estadísticas del Circuito</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PageStatsCircuito.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
-
+  <?php include '../api/navbar.php'; ?>
   <h1 id="titulo"></h1>
   <div class="main-container">
     <div class="stats-container">

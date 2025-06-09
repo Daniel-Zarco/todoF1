@@ -6,9 +6,11 @@
   <title>Circuitos F1</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PageCircuitos.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
+  <?php include '../api/navbar.php'; ?>
   <header>
     <h1>Circuitos F1</h1>
   </header>
@@ -55,7 +57,7 @@
 
     card.addEventListener('click', () => {
       const circuitoParam = encodeURIComponent(circuito.circuitName);
-      window.location.href = `PageStatsCircuito.html?circuito=${circuitoParam}&year=${year}`;
+      window.location.href = `PageStatsCircuito.php?circuito=${circuitoParam}&year=${year}`;
     });
 
     if (raceDate > today) {
@@ -76,7 +78,7 @@
 
     /*Boton retroceso*/
     document.getElementById('btn-volver').addEventListener('click', function () {
-      let url = '/TodoF1/todoF1/index.html/PagePrincipal.html';
+      let url = '/TodoF1/todoF1/index.html/PagePrincipal.php';
       if (year) {
         url += `?year=${year}`;
       }

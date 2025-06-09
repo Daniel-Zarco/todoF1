@@ -6,9 +6,11 @@
   <title>Estadísticas del Piloto</title>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/PageStatsPiloto.css">
+  <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
+  <?php include '../api/navbar.php'; ?>
   <h1 id="titulo">Estadísticas del Piloto</h1>
 
   <!-- Bloque de la foto -->

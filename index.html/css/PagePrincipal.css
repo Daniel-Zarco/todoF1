@@ -145,14 +145,14 @@ header {
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
-.logout-container {
-    position: absolute;
-    top: 20px;
-    right: 30px;
+.info-container {
+    position: fixed;
+    top: 70px;
+    right: 50px;
     z-index: 1000;
 }
 
-.logout-btn {
+.info-btn {
     background-color: transparent;
     color: white;
     border: 2px solid red;
@@ -164,7 +164,7 @@ header {
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
 }
 
-.logout-btn:hover {
+.info-btn:hover {
     background-color: red;
     color: white;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
@@ -219,48 +219,127 @@ header {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
 }
 
-.back-button {
+
+.ranking-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 10px auto;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid #e10600;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .ranking-container h2 {
+        font-size: 1.8rem;
+        color: #ff4b4b;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+    }
+
+    .ranking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .ranking-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .ranking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    }
+
+    .ranking-card h3 {
+        font-size: 1.4rem;
+        color: #ffffff;
+        margin-bottom: 10px;
+        text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+    }
+
+    .ranking-card ol {
+        list-style: decimal inside;
+        color: #ddd;
+        padding-left: 0;
+    }
+
+    .ranking-card li {
+        margin: 6px 0;
+        font-size: 1rem;
+        color: #ccc;
+    }
+
+    .ranking-card li span {
+        color: #ff4b4b;
+        font-weight: bold;
+    }
+
+    #ranking-lists {
+        display: none;
+    }
+
+    .logout-container {
     position: fixed;
-    top: 110px;
-    left: 100px;
+    top: 70px;
+    left: 50px;
     z-index: 1000;
-    width: 150px;
-    background: #000;
-    color: #fff;
-    border: 2px solid #e10600;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    font-family: "Urbanist", sans-serif;
-    text-transform: uppercase;
+}
+
+.logout-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid red;
+    padding: 8px 16px;
     border-radius: 10px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-    overflow: hidden;
 }
 
-.back-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 0.3),
-            rgba(255, 255, 255, 0));
-    transform: skewX(-20deg);
-    transition: left 0.5s ease;
-}
-
-.back-button:hover::before {
-    left: 100%;
-}
-
-.back-button:hover {
-    background-color: #e10600;
+.logout-button:hover {
+    background-color: red;
     color: white;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
 }
+
+    .logout-form {
+        margin: 0;
+    }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 10px 70px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    position: fixed; /* Cambiado de sticky a fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+}
+
+
+.navbar-user {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+
