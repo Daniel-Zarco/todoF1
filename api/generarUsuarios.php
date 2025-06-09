@@ -1,9 +1,9 @@
 <?php
 // Datos de conexión a la base de datos (ajusta según tu configuración)
-$servername = "localhost";  
-$username = "root";         
-$password = "";            
-$dbname = "todof1"; 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "todof1";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,10 +15,11 @@ if ($conn->connect_error) {
 
 // Listas de valores posibles
 $generos = ['hombre', 'mujer', 'otro'];
-$paises = ["Argentina","Bolivia","Chile","Colombia","Costa Rica","Cuba","Ecuador","El Salvador","España","Guatemala","Honduras","México","Nicaragua","Panamá","Paraguay","Perú","Puerto Rico","República Dominicana","Uruguay","Venezuela"];
+$paises = ["Argentina", "Bolivia", "Chile", "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay", "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela"];
 
 // Función para generar edad aleatoria (entre 18 y 80, por ejemplo)
-function edadRandom() {
+function edadRandom()
+{
     return rand(18, 80);
 }
 
@@ -42,4 +43,3 @@ echo "100 usuarios generados exitosamente.";
 
 $stmt->close();
 $conn->close();
-?>

@@ -7,10 +7,10 @@ body {
   padding: 0;
 }
 
-.navbar + header {
-    padding-left: 60px;
-    padding-top: 50px;
-    padding-bottom: 0px;
+.navbar+header {
+  padding-left: 60px;
+  padding-top: 50px;
+  padding-bottom: 0px;
 }
 
 header {

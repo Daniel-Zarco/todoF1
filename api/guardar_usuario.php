@@ -1,9 +1,9 @@
 <?php
 // Datos de conexión a la base de datos
-$servername = "localhost";  
-$username = "root";         
-$password = "";            
-$dbname = "todof1";  
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "todof1";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -42,4 +42,3 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
-?>

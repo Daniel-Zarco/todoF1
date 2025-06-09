@@ -16,7 +16,7 @@
   <!-- Bloque de la foto -->
   <div class="foto-block">
     <span class="label">Foto del Piloto:</span>
-    <img id="piloto-foto" src="" alt="Foto del piloto" >
+    <img id="piloto-foto" src="" alt="Foto del piloto">
   </div>
 
   <div class="grid-container">
@@ -111,7 +111,7 @@
                         const today = new Date();
                         let age = today.getFullYear() - birthDate.getFullYear();
                         if (today.getMonth() < birthDate.getMonth() ||
-                            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                          (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
                           age--;
                         }
                         edadElem.textContent = `${age} años`;
@@ -121,7 +121,7 @@
                   const today = new Date();
                   let age = today.getFullYear() - birthDate.getFullYear();
                   if (today.getMonth() < birthDate.getMonth() ||
-                      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                    (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
                     age--;
                   }
                   edadElem.textContent = `${age} años`;

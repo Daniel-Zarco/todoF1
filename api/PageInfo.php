@@ -16,7 +16,7 @@ $result = $conn->query($sql);
 
 $datos = [];
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         $datos[] = $row;
     }
 }
@@ -30,14 +30,14 @@ $edades = [];
 
 foreach ($datos as $dato) {
     // Contar géneros
-    if(isset($generos[$dato['gender']])) {
+    if (isset($generos[$dato['gender']])) {
         $generos[$dato['gender']]++;
     } else {
         $generos[$dato['gender']] = 1;
     }
 
     // Contar países
-    if(isset($paises[$dato['country']])) {
+    if (isset($paises[$dato['country']])) {
         $paises[$dato['country']]++;
     } else {
         $paises[$dato['country']] = 1;
@@ -54,4 +54,3 @@ $edades_json = json_encode($edades);
 
 // Ahora incluimos el HTML que mostrará los datos
 include '../index.html/PageInfo.php';
-?>

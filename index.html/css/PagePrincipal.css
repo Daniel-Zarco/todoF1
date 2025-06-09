@@ -221,77 +221,77 @@ header {
 
 
 .ranking-container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 10px auto;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.7);
-        border: 2px solid #e10600;
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-        text-align: center;
-        backdrop-filter: blur(5px);
-    }
+    width: 100%;
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #e10600;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
 
-    .ranking-container h2 {
-        font-size: 1.8rem;
-        color: #ff4b4b;
-        margin-bottom: 20px;
-        text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-    }
+.ranking-container h2 {
+    font-size: 1.8rem;
+    color: #ff4b4b;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
 
-    .ranking-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        justify-content: center;
-    }
+.ranking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
 
-    .ranking-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 0, 0, 0.3);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        backdrop-filter: blur(5px);
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.ranking-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .ranking-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-    }
+.ranking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+}
 
-    .ranking-card h3 {
-        font-size: 1.4rem;
-        color: #ffffff;
-        margin-bottom: 10px;
-        text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
-    }
+.ranking-card h3 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+}
 
-    .ranking-card ol {
-        list-style: decimal inside;
-        color: #ddd;
-        padding-left: 0;
-    }
+.ranking-card ol {
+    list-style: decimal inside;
+    color: #ddd;
+    padding-left: 0;
+}
 
-    .ranking-card li {
-        margin: 6px 0;
-        font-size: 1rem;
-        color: #ccc;
-    }
+.ranking-card li {
+    margin: 6px 0;
+    font-size: 1rem;
+    color: #ccc;
+}
 
-    .ranking-card li span {
-        color: #ff4b4b;
-        font-weight: bold;
-    }
+.ranking-card li span {
+    color: #ff4b4b;
+    font-weight: bold;
+}
 
-    #ranking-lists {
-        display: none;
-    }
+#ranking-lists {
+    display: none;
+}
 
-    .logout-container {
+.logout-container {
     position: fixed;
     top: 70px;
     left: 50px;
@@ -316,9 +316,9 @@ header {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
 }
 
-    .logout-form {
-        margin: 0;
-    }
+.logout-form {
+    margin: 0;
+}
 
 .navbar {
     display: flex;
@@ -327,11 +327,13 @@ header {
     background-color: #111;
     padding: 10px 70px;
     box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-    position: fixed; /* Cambiado de sticky a fixed */
+    position: fixed;
+    /* Cambiado de sticky a fixed */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+    z-index: 9999;
+    /* Asegura que esté por encima de otros elementos */
 }
 
 
@@ -340,6 +342,3 @@ header {
     font-size: 1rem;
     font-weight: bold;
 }
-
-
-

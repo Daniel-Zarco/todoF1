@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <title>Pilotos F1</title>
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="css/PagePilotos.css">
   <link rel="stylesheet" href="css/navbar.css">
 </head>
+
 <body>
   <?php include '../api/navbar.php'; ?>
   <header>
@@ -43,7 +45,9 @@
 
         const container = document.getElementById('pilotos-container');
         const pilotosOrdenados = Array.from(pilotosUnicos.values()).sort(
-          (a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
+          (a, b) => a.nombre.localeCompare(b.nombre, 'es', {
+            sensitivity: 'base'
+          })
         );
 
         pilotosOrdenados.forEach(piloto => {
@@ -66,11 +70,14 @@
         document.getElementById('pilotos-container').innerHTML = '<p>Error al cargar pilotos desde la API.</p>';
       });
 
-    document.getElementById('btn-volver').addEventListener('click', function () {
+    document.getElementById('btn-volver').addEventListener('click', function() {
       let url = '/TodoF1/todoF1/index.html/PagePrincipal.php';
-      if (year) { url += `?year=${year}`; }
+      if (year) {
+        url += `?year=${year}`;
+      }
       window.location.href = url;
     });
   </script>
 </body>
+
 </html>

@@ -143,7 +143,7 @@
         tbody.innerHTML = `<tr><td colspan="5">Error al cargar los datos.</td></tr>`;
       });
 
-    document.getElementById("btn-volver").addEventListener("click", function (e) {
+    document.getElementById("btn-volver").addEventListener("click", function(e) {
       e.preventDefault();
       window.history.back();
     });

@@ -6,35 +6,37 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Página Principal</title>
     <link rel="stylesheet" href="css/PagePrincipal.css">
 </head>
+
 <body>
 
     <!-- Navbar -->
     <?php if ($isLoggedIn): ?>
-    <nav class="navbar">
-        <div class="navbar-user">
-            👤 <?php echo htmlspecialchars($username); ?>
+        <nav class="navbar">
+            <div class="navbar-user">
+                👤 <?php echo htmlspecialchars($username); ?>
+            </div>
+
+        </nav>
+        <div class="logout-container">
+            <form action="../api/logout.php" method="POST" class="logout-form">
+                <button type="submit" class="logout-button">Cerrar Sesión</button>
+            </form>
         </div>
-        
-    </nav>
-    <div class="logout-container">
-    <form action="../api/logout.php" method="POST" class="logout-form">
-        <button type="submit" class="logout-button">Cerrar Sesión</button>
-    </form>
-    </div>
     <?php endif; ?>
 
     <!-- Botón volver (si no está logado) -->
     <?php if (!$isLoggedIn): ?>
-    <div class="logout-container">
-        <form action="/TodoF1/todoF1/index.html/InitSes.html" method="GET" class="logout-form">
-            <button type="submit" class="logout-button">Volver a Inicio</button>
-        </form>
-    </div>
+        <div class="logout-container">
+            <form action="/TodoF1/todoF1/index.html/InitSes.html" method="GET" class="logout-form">
+                <button type="submit" class="logout-button">Volver a Inicio</button>
+            </form>
+        </div>
     <?php endif; ?>
 
     <div class="info-container">
@@ -108,7 +110,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
             updateRankingTitle(year);
         }
 
-        select.addEventListener("change", function () {
+        select.addEventListener("change", function() {
             const selectedYear = this.value;
             fetchTop3(selectedYear);
             updateRankingTitle(selectedYear);
@@ -173,4 +175,5 @@ $username = $isLoggedIn ? $_SESSION['username'] : '';
         }
     </script>
 </body>
+
 </html>

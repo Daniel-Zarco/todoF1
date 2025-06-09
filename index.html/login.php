@@ -54,11 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Login Admin</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
     <video id="background-video" autoplay loop muted playsinline>
         <source src="/TodoF1/todoF1/Images/InitSes5.mp4" type="video/mp4" />
@@ -71,7 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Login Admin</h2>
         <form method="POST" action="">
             <input type="text" name="username" placeholder="Usuario" required />
-            <input type="password" name="password" placeholder="Contraseña" required />
+            <div class="password-container">
+                <input type="password" name="password" placeholder="Contraseña" id="password" required />
+                <button id="ojo" type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+            </div>
             <button type="submit">Entrar</button>
         </form>
         <?php if ($error): ?>
@@ -79,4 +84,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
     </div>
 </body>
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.querySelector(".toggle-password");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleButton.textContent = "🙈";
+        } else {
+            passwordInput.type = "password";
+            toggleButton.textContent = "👁️";
+        }
+    }
+</script>
+
 </html>
