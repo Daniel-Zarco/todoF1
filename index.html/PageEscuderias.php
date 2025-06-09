@@ -33,9 +33,9 @@
     "alpine": "#0090ff",
     "aston martin": "#006f62",
     "williams": "#005aff",
-    "alphatauri": "#2b2d42",
-    "alfa romeo": "#900000",
-    "haas": "#b6babd"
+    "sauber": "#39FF14",
+    "haas": "#F74955",
+    "rb f1 team": "#ffffff"
   };
 
   fetch(`https://api.jolpi.ca/ergast/f1/${year}/results.json?limit=1000`)

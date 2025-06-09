@@ -16,7 +16,7 @@
   <!-- Bloque de la foto -->
   <div class="foto-block">
     <span class="label">Foto del Piloto:</span>
-    <img id="piloto-foto" src="" alt="Foto del piloto">
+    <img id="piloto-foto" src="" alt="Foto del piloto" >
   </div>
 
   <div class="grid-container">
@@ -92,7 +92,7 @@
                 const pages = wikiData.query.pages;
                 const pageId = Object.keys(pages)[0];
                 const page = pages[pageId];
-                const imageUrl = page.original ? page.original.source : '/images/default-pilot.jpg';
+                const imageUrl = page.original ? page.original.source : '../Images/SinPerfil.jpg';
                 pilotoFotoElem.src = imageUrl;
 
                 // Q-ID para Wikidata
