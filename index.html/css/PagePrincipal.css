@@ -13,6 +13,7 @@ body {
     background-size: 400% 400%;
     animation: movimientoFondo 15s ease infinite;
     color: white;
+    height: 100vh;
 }
 
 @keyframes movimientoFondo {
@@ -46,7 +47,7 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    padding: 40px;
+    padding: 1%;
     max-width: 1200px;
     margin: auto;
 }
@@ -224,7 +225,7 @@ header {
     width: 100%;
     max-width: 1200px;
     margin: 10px auto;
-    padding: 20px;
+    padding: 0.8%; 
     background: rgba(0, 0, 0, 0.7);
     border: 2px solid #e10600;
     border-radius: 15px;
@@ -236,7 +237,8 @@ header {
 .ranking-container h2 {
     font-size: 1.8rem;
     color: #ff4b4b;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
 }
 

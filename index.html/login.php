@@ -59,6 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8" />
     <title>Login Admin</title>
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js" defer></script>
+
 </head>
 
 <body>
@@ -84,18 +86,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
     </div>
 </body>
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById("password");
-        const toggleButton = document.querySelector(".toggle-password");
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            toggleButton.textContent = "🙈";
-        } else {
-            passwordInput.type = "password";
-            toggleButton.textContent = "👁️";
-        }
-    }
-</script>
-
 </html>
