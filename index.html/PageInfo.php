@@ -24,6 +24,10 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     <a href="../index.html/PagePrincipal.php" class="back-button">← Volver</a>
 
     <h1>Datos Registrados</h1>
+    <div class="total-users">
+        <h2>Total de Usuarios: <span id="totalUsuarios"></span></h2>
+    </div>
+
 
     <div class="charts-container">
         <div class="chart-box">
@@ -45,6 +49,10 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
         const generos = <?= $generos_json ?>;
         const paises = <?= $paises_json ?>;
         const edades = <?= $edades_json ?>;
+        const totalUsuarios = <?= $totalUsuarios_json ?>;
+
+        // Muestra el total de usuarios
+        document.getElementById('totalUsuarios').textContent = totalUsuarios;
 
         // Gráfico de Género (Pie chart)
         const ctxGen = document.getElementById('genderChart').getContext('2d');

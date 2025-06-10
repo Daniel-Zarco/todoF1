@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <video id="background-video" autoplay loop muted playsinline>
-        <source src="/TodoF1/todoF1/Images/InitSes5.mp4" type="video/mp4" />
+        <source src="/TodoF1/todoF1/Images/InitSes.mp4" type="video/mp4" />
         Tu navegador no soporta video HTML5.
     </video>
     <button onclick="window.history.back()" class="back-button">

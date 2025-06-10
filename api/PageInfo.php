@@ -52,5 +52,8 @@ $generos_json = json_encode($generos);
 $paises_json = json_encode($paises);
 $edades_json = json_encode($edades);
 
+$totalUsuarios = count($datos);
+$totalUsuarios_json = json_encode($totalUsuarios);
+
 // Ahora incluimos el HTML que mostrará los datos
 include '../index.html/PageInfo.php';
